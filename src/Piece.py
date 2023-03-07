@@ -37,6 +37,11 @@ class Piece:
 
 
 # Vince adding code here
+
+    def isWithinBoard(location) -> Bool:
+        if 0 <= location[0] >= 7 and  0 <= location[1] >= 7 return True
+
+
     def pawnCanMoveTwo(location, ColorPiece):
         if ColorPiece is WHITE:
             location_to_validate_ = [
@@ -122,7 +127,7 @@ class Piece:
             break
 
         else:
-            while piece_to_validate_down is not piece.location and withinBoard(self.location):
+            while piece_to_validate_down is not piece.location and isWithinBoard(piece_to_validate_down):
                 location_down_rook: Liste[Piece] = []
                 location_down_rook.append(piece_to_validate_down)
                 piece_to_validate_down = [piece_to_validate_down[0]][piece_to_validate_down[1] - 1]
