@@ -30,28 +30,44 @@ class Piece:
             return self.pawnValidMovePositions(board) + self.pawnValidCapturePositions(board)
 
         elif self.typePiece is TypePiece.ROOK:
-            return self.rookValidMovePositions(board) + self.rookValidCapturePositions(board)
+            return self.rookValidMoveAndCapturePositions(board)
 
         else:
             raise NotImplemented
 
 
 # Vince adding code here
+    def pawnCanMoveTwo(location, ColorPiece):
+        if ColorPiece is WHITE:
+            location_to_validate_ = [
+            board.pieces[location[0], location[1] + 1],
+            board.pieces[location[0], location[1] + 2]
+            ]
+        else:
+            location_to_validate_ = [
+            board.pieces[location[0], location[1] - 1],
+            board.pieces[location[0], location[1] - 2]
+            ]
+               
+    piece_pawn_can_move_two : List [Piece] = (lambda piece: self.location is not piece.location, location_to_validate)
+    return piece_pawn_can_move_two
 
     def pawnValidMovePositions(self, board: Board) -> List[(int, int)]:
         if self.colorPiece is ColorPiece.WHITE:
             location_to_validate: List[Piece] = [
             board.pieces[self.location[0]][self.location[1] + 1]
             ]
-        elif:
+        else:
             location_to_validate: List[Piece] = [
             board.pieces[self.location[0]][self.location[1] - 1]
             ]
-        else:
-            raise NotImplemented
         
         piece_pawn_can_move : List [Piece] = (lambda piece: self.location is not piece.location, location_to_validate)
 
+        if self.location is self.startingLocation:
+            pawn_can_move_two = pawnCanMoveTwo(self.location, self.colorPiece)
+            position_pawn_can_move = position_pawn_can_move.append(pawn_can_move_two)
+        
         return position_pawn_can_move
         
 # End of Vince's code for pawn movement. I guess the raise NotImplemented is not required? Now that we have the available
@@ -77,8 +93,9 @@ class Piece:
         return positions_pawn_can_capture
 
 #Vince adding ROOK here
-    def rookValidMovePositions(self, board: Board) -> List[(int, int)]:
+    def rookValidMoveAndCapturePositions(self, board: Board) -> List[(int, int)]:
         piece_to_validate_up = [[board.pieces[self.location[0]][self.location[1] + 1]]]
+        valide_move_and_capture_location_rook = []
 
         if piece_to_validate_up is piece.location and self.ColorPiece is not piece.ColorPiece:
             location_to_capture_top = piece_to_validate_up
@@ -96,7 +113,7 @@ class Piece:
 
 
         piece_to_validate_down = [board.pieces[self.location[0]][self.location[1] - 1]]
-
+        
         if piece_to_validate_down is piece.location and self.ColorPiece is not piece.ColorPiece:
             location_to_capture_down = piece_to_validate_down
             return location_to_capture_down
@@ -145,7 +162,11 @@ class Piece:
                 piece_to_validate_left = [piece_to_validate_left[0] - 1][piece_to_validate_left[1]]
             return location_left_rook
 
-    
+    valide_move_and_capture_location_rook = valide_move_and_capture_location_rook.append(location_up_rook)
+    valide_move_and_capture_location_rook = valide_move_and_capture_location_rook.append(location_down_rook)
+    valide_move_and_capture_location_rook = valide_move_and_capture_location_rook.append(location_right_rook)
+    valide_move_and_capture_location_rook = valide_move_and_capture_location_rook.append(location_left_rook)
+
     valide_move_and_capture_location_rook = location_up_rook + location_down_rook + location_right_rook + location_left_rook 
 
     return valide_move_and_capture_location_rook
