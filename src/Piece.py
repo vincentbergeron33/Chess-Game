@@ -7,6 +7,7 @@ from src.Board import Board
 
 
 class TypePiece(Enum):
+    colorPiece: Colorpiece
     PAWN = 1
     ROOK = 2
     BISHOP = 3
@@ -19,6 +20,23 @@ class ColorPiece(Enum):
     BLACK = 1
     WHITE = 2
 
+class initialLocation(Enum):
+    PAWNa = 1
+    PAWNb = 2
+    PAWNc = 3
+    PAWNd = 4
+    PAWNe = 5
+    PAWNf = 6
+    PAWNg = 7
+    PAWNh = 8
+    ROOKa = 9
+    ROOKb = 10
+    KNIGHTa = 11
+    KNIGHTb = 12
+    BISHOPa = 13
+    BISHOPb = 14
+    QUEEN = 15
+    KING = 16
 
 @dataclass
 class Piece:
