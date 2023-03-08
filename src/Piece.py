@@ -36,8 +36,6 @@ class Piece:
             raise NotImplementedError()
 
 
-# Vince adding code here
-
     def isWithinBoard(location) -> bool:
         if 0 <= location[0] >= 7 and 0 <= location[1] >= 7:
             return True
@@ -85,9 +83,9 @@ class Piece:
         return position_pawn_can_move
              
         
-# End of Vince's code for pawn movement. I guess the raise NotImplemented is not required? Now that we have the available
-# position to move and capture, we can call the functions in the PawnValidMovePositions? We are just missing the last restriction
-# which is the board
+    # End of Vince's code for pawn movement. I guess the raise NotImplemented is not required? Now that we have the available
+    # position to move and capture, we can call the functions in the PawnValidMovePositions? We are just missing the last restriction
+    # which is the board
 
     def pawnValidCapturePositions(self, board: Board) -> List[(int, int)]:
         if self.colorPiece is ColorPiece.WHITE:
@@ -106,14 +104,14 @@ class Piece:
 
         return positions_pawn_can_capture
 
-#Vince adding ROOK here
+    #Vince adding ROOK here
     def rookValidMoveAndCapturePositions(self, board: Board, piece) -> List[(int, int)]:
         piece_to_validate_up = [[board.pieces[self.location[0]][self.location[1] + 1]]]
         valide_move_and_capture_location_rook = []
 
         if piece_to_validate_up is piece.location and self.ColorPiece is not piece.ColorPiece:
-            location_to_capture_top = piece_to_validate_up
-            return location_to_capture_top
+            location_to_capture_up = piece_to_validate_up
+            return location_to_capture_up
 
         elif piece_to_validate_up is piece.location and self.ColorPiece is piece.ColorPiece:
             break
@@ -176,14 +174,41 @@ class Piece:
                 piece_to_validate_left = board.pieces[[piece_to_validate_left[0] - 1][piece_to_validate_left[1]]]
             return location_left_rook
 
-    valide_move_and_capture_location_rook = valide_move_and_capture_location_rook.append(location_up_rook)
-    valide_move_and_capture_location_rook = valide_move_and_capture_location_rook.append(location_down_rook)
-    valide_move_and_capture_location_rook = valide_move_and_capture_location_rook.append(location_right_rook)
-    valide_move_and_capture_location_rook = valide_move_and_capture_location_rook.append(location_left_rook)
-
-    #valid position to capture to be added
+        valide_move_and_capture_location_rook = valide_move_and_capture_location_rook.append(location_up_rook)
+        valide_move_and_capture_location_rook = valide_move_and_capture_location_rook.append(location_down_rook)
+        valide_move_and_capture_location_rook = valide_move_and_capture_location_rook.append(location_right_rook)
+        valide_move_and_capture_location_rook = valide_move_and_capture_location_rook.append(location_left_rook)
+        valide_move_and_capture_location_rook = valide_move_and_capture_location_rook.append(location_to_capture_up)
+        valide_move_and_capture_location_rook = valide_move_and_capture_location_rook.append(location_to_capture_down)
+        valide_move_and_capture_location_rook = valide_move_and_capture_location_rook.append(location_to_capture_right)
+        valide_move_and_capture_location_rook = valide_move_and_capture_location_rook.append(location_to_capture_left)
 
     return valide_move_and_capture_location_rook
 
 
     #Vince adding BISHOP here
+
+    #Vince adding Knight
+    def knightValidMoveAndCapturePositions(self, board: Board, piece) -> List[(int, int)]:
+        self.location[0] = x
+        self.location[1] = y
+        location_to_validate = list(product([x - 1, x + 1], [y - 2, x - 2])) + list(product([x - 2, x + 2], [y - 1, y + 1]))
+        for location in location_to_validate:
+            if location is not piece.location:
+                valide_move_location_bishop = []
+                valide_move_location_bishop = valide_move_location_bishop.append(location)
+                return valide_move_location_bishop
+            elif location is piece.location and self.colorPiece is not piece.ColorPiece:
+                valide_capture_location_bishop = []
+                valide_capture_location_bishop = valide_capture_location_bishop.append(location)
+                return valide_capture_location_bishop
+            else:
+                continue
+        return valide_capture_location_bishop
+    valide_move_and_capture_location_bishop = []
+    valide_move_and_capture_location_bishop = valide_move_and_capture_location_bishop.append(valide_move_location_bishop)
+    valide_move_and_capture_location_bishop = valide_move_and_capture_location_bishop.append(valide_capture_location_bishop)
+    return valide_move_and_capture_location_bishop
+
+        
+
