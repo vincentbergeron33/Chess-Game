@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 from typing import List
+from itertools import product
 
 from src.Board import Board
 
@@ -31,6 +32,10 @@ class Piece:
 
         elif self.typePiece is TypePiece.ROOK:
             return self.rookValidMoveAndCapturePositions(board)
+        elif self.typePiece is TypePiece.KNIGHT:
+            return self.knightValidMoveAndCapturePositions(board, piece)
+        elif self.typePiece is TypePiece.KING:
+            return self.kingValidMoveAndCapturePositions(board)
 
         else:
             raise NotImplementedError()
@@ -190,25 +195,51 @@ class Piece:
 
     #Vince adding Knight
     def knightValidMoveAndCapturePositions(self, board: Board, piece) -> List[(int, int)]:
-        self.location[0] = x
-        self.location[1] = y
+        x = self.location[0]
+        y = self.location[1]
         location_to_validate = list(product([x - 1, x + 1], [y - 2, x - 2])) + list(product([x - 2, x + 2], [y - 1, y + 1]))
         for location in location_to_validate:
-            if location is not piece.location:
-                valide_move_location_bishop = []
-                valide_move_location_bishop = valide_move_location_bishop.append(location)
-                return valide_move_location_bishop
-            elif location is piece.location and self.colorPiece is not piece.ColorPiece:
-                valide_capture_location_bishop = []
-                valide_capture_location_bishop = valide_capture_location_bishop.append(location)
-                return valide_capture_location_bishop
-            else:
-                continue
+            if isWithinBoard(location):
+                if location is not piece.location:
+                    valide_move_location_bishop = []
+                    valide_move_location_bishop = valide_move_location_bishop.append(location)
+                    return valide_move_location_bishop
+                elif location is piece.location and self.colorPiece is not piece.ColorPiece:
+                    valide_capture_location_bishop = []
+                    valide_capture_location_bishop = valide_capture_location_bishop.append(location)
+                    return valide_capture_location_bishop
+                else:
+                    continue
         return valide_capture_location_bishop
     valide_move_and_capture_location_bishop = []
     valide_move_and_capture_location_bishop = valide_move_and_capture_location_bishop.append(valide_move_location_bishop)
     valide_move_and_capture_location_bishop = valide_move_and_capture_location_bishop.append(valide_capture_location_bishop)
     return valide_move_and_capture_location_bishop
 
+    #Vince adding King
+    def kingValidMoveAndCapturePositions(self, board: Board, piece) -> List[(int, int)]:
+        x = self.location[0]
+        y = self.location[1]
+        location_to_validate = [
+            [x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1],
+             [x + 1, y + 1], [x - 1, y + 1], [x + 1, y - 1], [x - 1, y + 1]
+             ]
+        for location in location_to_validate:
+            if isWithinBoard(location):
+                if location is not piece.location:
+                    valide_move_location_king = []
+                    valide_move_location_kind = valide_move_location_king.append(location)
+                    return valide_move_location_king
+                elif location is piece.location and self.colorPiece is not piece.ColorPiece:
+                    valide_capture_location_king = []
+                    valide_capture_location_king = valide_capture_location_king.append(location)
+                    return valide_capture_location_king
+                else:
+                    continue
+    valide_move_and_capture_location_king = []
+    valide_move_and_capture_location_king = valide_move_and_capture_location_king.append(valide_move_location_king)
+    valide_move_and_capture_location_king = valide_move_and_capture_location_king.append(valide_capture_location_king)
+    return valide_move_and_capture_location_king
         
 
+    
