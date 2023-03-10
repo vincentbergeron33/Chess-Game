@@ -8,15 +8,12 @@ from Piece import Piece
 class Board:
     pieces: List[List[Optional[Piece]]]
 
-    Grid: Grid
-
-
-    def printPiecesonBoard(self, piece):
-        if typePiece is typePiece.PAWN:
-            if colorPiece is colorPiece.WHITE:
-                Print(WP)
+    def printPiecesOnBoard(typePiece, colorPiece):
+        if TypePiece is typePiece.PAWN:
+            if ColorPiece is colorPiece.WHITE:
+                print('WP')
             else:
-                print(BP)
+                print('BP')
         elif typePiece is typePiece.ROOK:
             if colorPiece is colorPiece.WHITE:
                 Print(WR)
@@ -27,7 +24,7 @@ class Board:
                 Print(WB)
             else:
                 print(BB)
-        elif typePiece is typePiece.KNIGHT:
+        elif TypePiece is typePiece.KNIGHT:
             if colorPiece is colorPiece.WHITE:
                 Print(WK)
             else:
@@ -42,17 +39,13 @@ class Board:
                 Print(WK)
             else:
                 print(BK)
-        else:
-            print(o)
 
-    def printboard(self, piece):
-        grid = []
-        for i in range (0, 7):
-            for i in range (0, 7):
-                for location in piece.location:
-                    if grid[i][j] is location:
-                        grid[i][j] = printPiecesonBoard(self, self.typePiece)
-                    else:
-                        grid[i][j] = ' '
-
+    def printboard(self):
+        for i in range(0, len(self.pieces)):
+            for j in range(0, len(self.pieces[i])):
+                piece = self.pieces[i][j]
+                if piece is not None:
+                    printPiecesOnBoard(piece.typePiece, piece.ColorPiece)
+                else:
+                    print(' ')
 

@@ -2,12 +2,11 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import List
 from itertools import product
+from Board import Board
 
-from src.Board import Board
 
 
 class TypePiece(Enum):
-    colorPiece: Colorpiece
     PAWN = 1
     ROOK = 2
     BISHOP = 3
@@ -20,29 +19,19 @@ class ColorPiece(Enum):
     BLACK = 1
     WHITE = 2
 
-class initialLocation(Enum):
-    PAWNa = 1
-    PAWNb = 2
-    PAWNc = 3
-    PAWNd = 4
-    PAWNe = 5
-    PAWNf = 6
-    PAWNg = 7
-    PAWNh = 8
-    ROOKa = 9
-    ROOKb = 10
-    KNIGHTa = 11
-    KNIGHTb = 12
-    BISHOPa = 13
-    BISHOPb = 14
-    QUEEN = 15
-    KING = 16
-
 @dataclass
 class Piece:
     typePiece: TypePiece
     colorPiece: ColorPiece
     location: (int, int)
+    startingLocation: (int, int) = field(init = False)
+
+    def __post_init__(self):
+        self.startingLocation = location
+
+    def isAtStartingLocation(self) -> bool:
+        return self.startingLocation == self.location
+
 
     def movement(self, board: Board) -> List[(int, int)]:
         if self.typePiece is TypePiece.PAWN:
@@ -68,13 +57,13 @@ class Piece:
 
     def pawnCanMoveTwo(self, location, ColorPiece, board, piece):
         if self.ColorPiece is ColorPiece.WHITE:
-            if board.pieces[location[0], location[1] + 1] is not piece.location:
+            if board.pieces[[location[0]][location[1]] + 1] is None:
                 location_to_validate = [
                     board.pieces[location[0], location[1] + 1],
                     board.pieces[location[0], location[1] + 2]
                 ]
             else:
-                return None
+                return []
         else:
             if board.pieces[location[0], location[1] - 1] is not piece.location:
                 location_to_validate = [
@@ -83,15 +72,16 @@ class Piece:
                 ]
 
             else:
-                return None
+                return []
 
-        piece_pawn_can_move_two: List[Piece] = (lambda piece: self.location is not piece.location, location_to_validate)
+        piece_pawn_can_move_two: List[Piece] = (lambda piece: board.pieces[location_to_validate[0]][location_to_validate[1]] is None, location_to_validate)
+        #rajouter MAP
         return piece_pawn_can_move_two
 
     def pawnValidMovePositions(self, board: Board) -> List[(int, int)]:
         
-        if self.location is self.startingLocation:
-            position_pawn_can_move = pawnCanMoveTwo(self.location, self.colorPiece)
+        if self.isAtStartingLocation():
+            position_pawn_can_move = pawnCanMoveTwo()
         elif self.colorPiece is ColorPiece.WHITE:
             location_to_validate: List[Piece] = [
             board.pieces[self.location[0]][self.location[1] + 1]
@@ -122,7 +112,7 @@ class Piece:
                 board.pieces[self.location[0] - 1][self.location[1] - 1],
             ]
 
-        pieces_pawn_can_capture: List[Piece] = filter(lambda piece: self.colorPiece is not piece.colorPiece, pieces_to_validate)
+        pieces_pawn_can_capture: List[Piece] = filter(lambda piece: piece is not None and self.colorPiece is not piece.colorPiece, pieces_to_validate)
         positions_pawn_can_capture: List[(int, int)] = map(lambda piece: piece.location, pieces_pawn_can_capture)
 
         return positions_pawn_can_capture
@@ -137,11 +127,11 @@ class Piece:
             return location_to_capture_up
 
         elif piece_to_validate_up is piece.location and self.ColorPiece is piece.ColorPiece:
-            break
+            return []
 
         else:
             while piece_to_validate_up is not piece.location and isWithinBoard(piece_to_validate_up):
-                location_up_rook: List[Piece] = []
+                #location_up_rook: List[Piece] = []
                 location_up_rook.append(piece_to_validate_up)
                 piece_to_validate_up = board.pieces[[piece_to_validate_up[0]][piece_to_validate_up[1] + 1]]
             return location_up_rook
@@ -154,7 +144,7 @@ class Piece:
             return location_to_capture_down
 
         elif piece_to_validate_down is piece.location and self.ColorPiece is piece.ColorPiece:
-            break
+            return None
 
         else:
             while piece_to_validate_down is not piece.location and isWithinBoard(piece_to_validate_down):
@@ -171,7 +161,7 @@ class Piece:
             return location_to_capture_right
 
         elif piece_to_validate_right is piece.location and self.ColorPiece is piece.ColorPiece:
-            break
+            return None
 
         else:
             while piece_to_validate_right is not piece.location and isWithinBoard(piece_to_validate_right):
@@ -188,7 +178,7 @@ class Piece:
             return location_to_capture_left
 
         elif piece_to_validate_left is piece.location and self.ColorPiece is piece.ColorPiece:
-            break
+            return None
 
         else:
             while piece_to_validate_left is not piece.location and isWithinBoard(piece_to_validate_left):
@@ -206,7 +196,7 @@ class Piece:
         valide_move_and_capture_location_rook = valide_move_and_capture_location_rook.append(location_to_capture_right)
         valide_move_and_capture_location_rook = valide_move_and_capture_location_rook.append(location_to_capture_left)
 
-    return valide_move_and_capture_location_rook
+        return valide_move_and_capture_location_rook
 
 
     #Vince adding BISHOP here
@@ -219,20 +209,21 @@ class Piece:
         for location in location_to_validate:
             if isWithinBoard(location):
                 if location is not piece.location:
-                    valide_move_location_bishop = []
-                    valide_move_location_bishop = valide_move_location_bishop.append(location)
+                    valide_move_location_knight = []
+                    valide_move_location_knight = valide_move_location_knight.append(location)
                     return valide_move_location_bishop
                 elif location is piece.location and self.colorPiece is not piece.ColorPiece:
-                    valide_capture_location_bishop = []
-                    valide_capture_location_bishop = valide_capture_location_bishop.append(location)
-                    return valide_capture_location_bishop
+                    valide_capture_location_knight = []
+                    valide_capture_location_knight = valide_capture_location_knight.append(location)
+                    return valide_capture_location_knight
                 else:
                     continue
-        return valide_capture_location_bishop
-    valide_move_and_capture_location_bishop = []
-    valide_move_and_capture_location_bishop = valide_move_and_capture_location_bishop.append(valide_move_location_bishop)
-    valide_move_and_capture_location_bishop = valide_move_and_capture_location_bishop.append(valide_capture_location_bishop)
-    return valide_move_and_capture_location_bishop
+        return valide_capture_location_knight
+        
+        valide_move_and_capture_location_knight = []
+        valide_move_and_capture_location_knight = valide_move_and_capture_location_knight.append(valide_move_location_knight)
+        valide_move_and_capture_location_knight = valide_move_and_capture_location_knight.append(valide_capture_location_knight)
+        return valide_move_and_capture_location_knight
 
     #Vince adding King
     def kingValidMoveAndCapturePositions(self, board: Board, piece) -> List[(int, int)]:
@@ -254,10 +245,12 @@ class Piece:
                     return valide_capture_location_king
                 else:
                     continue
-    valide_move_and_capture_location_king = []
-    valide_move_and_capture_location_king = valide_move_and_capture_location_king.append(valide_move_location_king)
-    valide_move_and_capture_location_king = valide_move_and_capture_location_king.append(valide_capture_location_king)
-    return valide_move_and_capture_location_king
-        
+            else:
+                continue
+        valide_move_and_capture_location_king = []
+        valide_move_and_capture_location_king = valide_move_and_capture_location_king.append(valide_move_location_king)
+        valide_move_and_capture_location_king = valide_move_and_capture_location_king.append(valide_capture_location_king)
+        return valide_move_and_capture_location_king
+            
 
     
