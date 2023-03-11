@@ -3,6 +3,7 @@ from typing import List, Optional
 
 from Piece import Piece
 
+startingLocation: (int, int) = field(init = False)
 
 @dataclass
 class Board:

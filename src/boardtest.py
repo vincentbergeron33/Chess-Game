@@ -1,7 +1,7 @@
 import unittest
 
-from Board import Board
 from Piece import Piece
+from Piece import Board
 from Piece import TypePiece
 from Piece import ColorPiece
 
@@ -18,4 +18,4 @@ class Boardtest(unittest.TestCase):
         actual_movement = board[0][1].movement(board)
         expected_movement = [(1,1), (0,1)]
 
-        assert(actual_movement)(expected_movement)       
+        self.assertEqual(actual_movement, expected_movement)       
