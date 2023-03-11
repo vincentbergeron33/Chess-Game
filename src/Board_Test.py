@@ -1,14 +1,14 @@
 import unittest
 
-from Piece import Piece
 from Piece import Board
+from Piece import Piece
 from Piece import TypePiece
 from Piece import ColorPiece
 
 
-class Boardtest(unittest.TestCase):
+class Boardtest(unittest.TestCase, Board, Piece):
 
-    def test_pawn_can_capture(self):
+    def test_pawn_can_capture():
         board = Board(
             [
                 [None, Piece(TypePiece.PAWN, ColorPiece.WHITE, (0, 1))],
@@ -18,4 +18,6 @@ class Boardtest(unittest.TestCase):
         actual_movement = board[0][1].movement(board)
         expected_movement = [(1,1), (0,1)]
 
-        self.assertEqual(actual_movement, expected_movement)       
+        self.assertEqual(actual_movement, expected_movement)  
+        print(actual_movement)
+test = Boardtest.test_pawn_can_capture()
