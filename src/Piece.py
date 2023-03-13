@@ -77,7 +77,7 @@ class Piece:
 
     def pawn_valid_moves(self, Board) -> List[int]:
         if self.is_at_starting_location():
-            piece_pawn_can_move = self.pawn_can_move_two()
+            piece_pawn_can_move = self.pawn_can_move_two(Board)
         elif self.colorPiece is ColorPiece.WHITE:
             location_to_validate: List[Piece] = [
                 Board.pieces[self.location[0]][self.location[1] + 1]
@@ -307,7 +307,6 @@ class Piece:
 @dataclass
 class Board:
     pieces: List[List[Optional[Piece]]]
-    board_squares = board()
 
     def printPiecesOnBoard(typePiece, colorPiece):
         if TypePiece is typePiece.PAWN:
