@@ -13,8 +13,9 @@ class Boardtest(unittest.TestCase, Board, Piece):
                 [None, Piece(TypePiece.PAWN, ColorPiece.BLACK, (0, 1))],
                 [Piece(TypePiece.PAWN, ColorPiece.WHITE, (1, 0)), None],
             ]
-
-        actual_movement = Board.pieces[0][1].movement(Board)
+        
+        test = print(Board.pieces[1][0])
+        actual_movement = Board.pieces[1][0].movement(Board)
         expected_movement = [(1, 1), (0, 1)]
 
         return print(actual_movement)

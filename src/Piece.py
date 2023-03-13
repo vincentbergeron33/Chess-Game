@@ -54,16 +54,16 @@ class Piece:
             return False
 
     def pawn_can_move_two(self, Board):
-        if self.ColorPiece is ColorPiece.WHITE:
-            if Board.pieces[[self.location[0]][self.location[1]] + 1] is None:
+        if self.colorPiece is ColorPiece.WHITE:
+            if Board.pieces[[int(self.location[0])][int(self.location[1]) -1]] is None:
                 location_to_validate = [
-                    Board.pieces[self.location[0], self.location[1] + 1],
-                    Board.pieces[self.location[0], self.location[1] + 2]
+                    Board.pieces[self.location[0], self.location[1] - 1],
+                    Board.pieces[self.location[0], self.location[1] - 2]
                     ]
             else:
                 return []
         else:
-            if Board.pieces[self.location[0], self.location[1] - 1] is None:
+            if Board.pieces[[self.location[0]][self.location[1] - 1]] is None:
                 location_to_validate = [
                     Board.pieces[self.location[0], self.location[1] - 1],
                     Board.pieces[self.location[0], self.location[1] - 2]
@@ -96,13 +96,13 @@ class Piece:
     def pawn_valid_captures(self, Board) -> List[int]:
         if self.colorPiece is ColorPiece.WHITE:
             pieces_to_validate: List[Piece] = [
-                Board.pieces[self.location[0] + 1][self.location[1] + 1],
                 Board.pieces[self.location[0] - 1][self.location[1] + 1],
+                Board.pieces[self.location[0] - 1][self.location[1] - 1],
             ]
         else:
             pieces_to_validate: List[Piece] = [
-                Board.pieces[self.location[0] + 1][self.location[1] -1],
-                Board.pieces[self.location[0] - 1][self.location[1] - 1],
+                Board.pieces[self.location[0] + 1][self.location[1] + 1],
+                Board.pieces[self.location[0] + 1][self.location[1] - 1],
             ]
 
         pieces_pawn_can_capture: List[Piece] = filter(lambda piece: piece is not None and self.colorPiece is not piece.colorPiece, pieces_to_validate)
