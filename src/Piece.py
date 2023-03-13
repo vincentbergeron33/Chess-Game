@@ -33,7 +33,10 @@ class Piece:
 
     def movement(self, Board) -> List[int]:
         if self.typePiece is TypePiece.PAWN:
-            return self.pawn_valid_moves(Board) + self.pawn_valid_captures(Board)
+            valid_capture_pawn = self.pawn_valid_captures(Board)
+            valid_move_pawn = self.pawn_valid_moves(Board)
+            valid_move_pawn = valid_move_pawn.append(valid_capture_pawn)
+            return valid_move_pawn
         elif self.typePiece is TypePiece.ROOK:
             return self.rook_valid_moves(Board)
         elif self.typePiece is TypePiece.BISHOP:
@@ -63,10 +66,10 @@ class Piece:
             else:
                 return []
         else:
-            if Board.pieces[[self.location[0]][self.location[1] - 1]] is None:
+            if Board.pieces[[self.location[0]][self.location[1] + 1]] is None:
                 location_to_validate = [
-                    Board.pieces[self.location[0], self.location[1] - 1],
-                    Board.pieces[self.location[0], self.location[1] - 2]
+                    Board.pieces[self.location[0], self.location[1] + 1],
+                    Board.pieces[self.location[0], self.location[1] + 2]
                     ]
 
             else:
@@ -80,16 +83,16 @@ class Piece:
             piece_pawn_can_move = self.pawn_can_move_two(Board)
         elif self.colorPiece is ColorPiece.WHITE:
             location_to_validate: List[Piece] = [
-                Board.pieces[self.location[0]][self.location[1] + 1]
-                ]
-            piece_pawn_can_move: List[Piece] = (lambda piece: piece is not None and is_within_board(location_to_validate), location_to_validate)
-        else:
-            location_to_validate: List[Piece] = [
                 Board.pieces[self.location[0]][self.location[1] - 1]
                 ]
-            piece_pawn_can_move: List[Piece] = (lambda piece: piece is not None and is_within_board(location_to_validate), location_to_validate)
+            piece_pawn_can_move: List[Piece] = (lambda piece: piece is None and location_to_validate.is_within_board(), location_to_validate)
+        else:
+            location_to_validate: List[Piece] = [
+                Board.pieces[self.location[0]][self.location[1] + 1]
+                ]
+            piece_pawn_can_move: List[Piece] = (lambda piece: piece is None and location_to_validate.is_within_board(), location_to_validate)
 
-        position_pawn_can_move = map(lambda piece: piece.location, piece_pawn_can_move)
+        position_pawn_can_move = list(map(lambda piece: piece.location, piece_pawn_can_move))
 
         return position_pawn_can_move      
 
@@ -99,6 +102,7 @@ class Piece:
                 Board.pieces[self.location[0] - 1][self.location[1] + 1],
                 Board.pieces[self.location[0] - 1][self.location[1] - 1],
             ]
+            print("Capture when White!")
         else:
             pieces_to_validate: List[Piece] = [
                 Board.pieces[self.location[0] + 1][self.location[1] + 1],
@@ -106,7 +110,9 @@ class Piece:
             ]
 
         pieces_pawn_can_capture: List[Piece] = filter(lambda piece: piece is not None and self.colorPiece is not piece.colorPiece, pieces_to_validate)
+        print(pieces_pawn_can_capture)
         positions_pawn_can_capture: List[int] = map(lambda piece: piece.location, pieces_pawn_can_capture)
+        print(positions_pawn_can_capture)
 
         return positions_pawn_can_capture
 

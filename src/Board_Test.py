@@ -16,7 +16,7 @@ class Boardtest(unittest.TestCase, Board, Piece):
         
         test = print(Board.pieces[1][0])
         actual_movement = Board.pieces[1][0].movement(Board)
-        expected_movement = [(1, 1), (0, 1)]
+        expected_movement = [(0, 0), (0, 1)]
 
         return print(actual_movement)
 
