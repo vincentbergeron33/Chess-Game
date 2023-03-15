@@ -33,9 +33,7 @@ class Piece:
 
     def movement(self, Board) -> List[int]:
         if self.typePiece is TypePiece.PAWN:
-            valid_capture_pawn = self.pawn_valid_captures(Board)
-            valid_move_pawn = self.pawn_valid_moves(Board)
-            valid_move_pawn = valid_move_pawn.append(valid_capture_pawn)
+            valid_move_pawn = self.pawn_valid_captures(Board) + self.pawn_valid_moves(Board)
             return valid_move_pawn
         elif self.typePiece is TypePiece.ROOK:
             return self.rook_valid_moves(Board)
@@ -58,34 +56,40 @@ class Piece:
 
     def pawn_can_move_two(self, Board):
         if self.colorPiece is ColorPiece.WHITE:
-            if Board.pieces[self.location[0]][self.location[1] -1] is None:
-                location_to_validate = [
-                    Board.pieces[self.location[0]][self.location[1] - 1],
-                    Board.pieces[self.location[0]][self.location[1] - 2]
-                    ]
-                print("Two move return locations")
+            if Board.pieces[self.location[0] -1][self.location[1]] is None:
+                print((self.location[0], self.location[1]))
+                piece_pawn_can_move_two = [(self.location[0] - 1, self.location[1])]
+                print("Printing first element of two")
+                print(piece_pawn_can_move_two)
+                print(zip(piece_pawn_can_move_two, piece_pawn_can_move_two))
+                if Board.pieces[self.location[0] - 2][self.location[1]] is None:
+                    piece_pawn_can_move_two = piece_pawn_can_move_two + ([
+                        (self.location[0] - 2, self.location[1])
+                        ])
+                    print("Two move return locations")
+                    print(piece_pawn_can_move_two)
             else:
                 print("Two returns nothing")
                 return []
         else:
-            if Board.pieces[self.location[0]][self.location[1] + 1] is None:
-                location_to_validate = [
-                    Board.pieces[self.location[0], self.location[1] + 1],
-                    Board.pieces[self.location[0], self.location[1] + 2]
-                    ]
-
+            if Board.pieces[self.location[0] + 1][self.location[1]] is None:
+                piece_pawn_can_move_two = piece_pawn_can_move_two + ([
+                    (self.location[0] + 1, self.location[1])
+                    ])
+                if Board.pieces[self.location[0] + 1][self.location[1]] is None:
+                    piece_pawn_can_move_two = piece_pawn_can_move_two.append([
+                        (self.location[0] + 2, self.location[1])
+                        ])
             else:
                 return []
 
-        piece_pawn_can_move_two: List[Piece] = filter(lambda piece: piece is None, location_to_validate)
-        print(piece_pawn_can_move_two)
         return piece_pawn_can_move_two
 
     def pawn_valid_moves(self, Board) -> List[int]:
         if self.is_at_starting_location():
-            piece_pawn_can_move = self.pawn_can_move_two(Board)
             print("Move Two has started")
-            print(piece_pawn_can_move)
+            position_pawn_can_move = self.pawn_can_move_two(Board)
+            print(position_pawn_can_move)
         elif self.colorPiece is ColorPiece.WHITE:
             location_to_validate: List[Piece] = [
                 Board.pieces[self.location[0]][self.location[1] - 1]
@@ -97,7 +101,7 @@ class Piece:
                 ]
             piece_pawn_can_move: List[Piece] = (lambda piece: piece is None and location_to_validate.is_within_board(), location_to_validate)
 
-        position_pawn_can_move = list(map(lambda piece: piece.location, piece_pawn_can_move))
+        print("move after map")
         print(position_pawn_can_move)
 
         return position_pawn_can_move      
@@ -117,8 +121,10 @@ class Piece:
             ]
 
         pieces_pawn_can_capture: List[Piece] = filter(lambda piece: piece is not None and self.colorPiece is not piece.colorPiece, pieces_to_validate)
+        print("capture before map")
         print(pieces_pawn_can_capture)
         positions_pawn_can_capture: List[int] = list(map(lambda piece: piece.location, pieces_pawn_can_capture))
+        print("capture after map")
         print(positions_pawn_can_capture)
 
         return positions_pawn_can_capture
