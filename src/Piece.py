@@ -41,7 +41,7 @@ class Piece:
         elif self.typePiece is TypePiece.BISHOP:
             return self.bishop_valid_moves(Board)
         elif self.typePiece is TypePiece.QUEEN:
-            return self.queen_valid_moves(Board)
+            return self.bishop_valid_moves(Board) + self.rook_valid_moves(Board)
         elif self.typePiece is TypePiece.KNIGHT:
             return self.knight_valid_moves(Board)
         elif self.typePiece is TypePiece.KING:
@@ -393,10 +393,6 @@ class Piece:
 
         return valide_move_and_capture_location_bishop
 
-    def queen_valid_moves(self, Board) -> List[int]:
-        valid_moves_queen = bishop_valid_moves(Board)
-        valid_moves_queen = valid_moves_queen.append(rook_valid_moves(Board))
-        return valid_moves_queen
 
     def knight_valid_moves(self, Board) -> List[int]:
         x = [self.location[0]]
@@ -420,7 +416,7 @@ class Piece:
         valide_move_and_capture_location_knight: List[int, int] = map(lambda piece: piece.location, valide_move_and_capture_piece_knight)
         return valide_move_and_capture_location_knight
 
-    def king_valid_moves(self, Board, piece) -> List[int]:
+    def king_valid_moves(self, Board) -> List[int]:
         x = self.location[0]
         y = self.location[1]
         piece_to_validate = Board.pieces[
