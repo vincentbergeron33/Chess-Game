@@ -34,6 +34,7 @@ class Piece:
     def movement(self, Board) -> List[int]:
         if self.typePiece is TypePiece.PAWN:
             valid_move_pawn = self.pawn_valid_captures(Board) + self.pawn_valid_moves(Board)
+            valid_move_pawn = list(set(valid_move_pawn))
             return valid_move_pawn
         elif self.typePiece is TypePiece.ROOK:
             return self.rook_valid_moves(Board)
@@ -49,19 +50,20 @@ class Piece:
             raise NotImplementedError()
 
     def is_within_board(self, location) -> bool:
-        if 0 <= location[0] >= 7 and 0 <= location[1] >= 7:
+        if 0 <= location[0][0] <= 7 and 0 <= location[0][1] <= 7:
+            print('true!')
             return True
         else:
+            print('False!')
             return False
 
     def pawn_can_move_two(self, Board):
         if self.colorPiece is ColorPiece.WHITE:
-            if Board.pieces[self.location[0] -1][self.location[1]] is None:
+            if Board.pieces[self.location[0] - 1][self.location[1]] is None:
                 print((self.location[0], self.location[1]))
                 piece_pawn_can_move_two = [(self.location[0] - 1, self.location[1])]
                 print("Printing first element of two")
                 print(piece_pawn_can_move_two)
-                print(zip(piece_pawn_can_move_two, piece_pawn_can_move_two))
                 if Board.pieces[self.location[0] - 2][self.location[1]] is None:
                     piece_pawn_can_move_two = piece_pawn_can_move_two + ([
                         (self.location[0] - 2, self.location[1])
@@ -73,14 +75,18 @@ class Piece:
                 return []
         else:
             if Board.pieces[self.location[0] + 1][self.location[1]] is None:
-                piece_pawn_can_move_two = piece_pawn_can_move_two + ([
-                    (self.location[0] + 1, self.location[1])
-                    ])
-                if Board.pieces[self.location[0] + 1][self.location[1]] is None:
-                    piece_pawn_can_move_two = piece_pawn_can_move_two.append([
+                print((self.location[0], self.location[1]))
+                piece_pawn_can_move_two = [(self.location[0] + 1, self.location[1])]
+                print("Printing first element of two")
+                print(piece_pawn_can_move_two)
+                if Board.pieces[self.location[0] + 2][self.location[1]] is None:
+                    piece_pawn_can_move_two = piece_pawn_can_move_two + ([
                         (self.location[0] + 2, self.location[1])
                         ])
+                    print("Two move return locations")
+                    print(piece_pawn_can_move_two)
             else:
+                print("Two returns nothing")
                 return []
 
         return piece_pawn_can_move_two
@@ -91,15 +97,15 @@ class Piece:
             position_pawn_can_move = self.pawn_can_move_two(Board)
             print(position_pawn_can_move)
         elif self.colorPiece is ColorPiece.WHITE:
-            location_to_validate: List[Piece] = [
-                Board.pieces[self.location[0]][self.location[1] - 1]
-                ]
-            piece_pawn_can_move: List[Piece] = (lambda piece: piece is None and location_to_validate.is_within_board(), location_to_validate)
+            print("move has started")
+            if Board.pieces[self.location[0] - 1][self.location[1]] is None:
+                position_pawn_can_move = [(self.location[0] - 1, self.location[1])]
+                print(position_pawn_can_move)
         else:
-            location_to_validate: List[Piece] = [
-                Board.pieces[self.location[0]][self.location[1] + 1]
-                ]
-            piece_pawn_can_move: List[Piece] = (lambda piece: piece is None and location_to_validate.is_within_board(), location_to_validate)
+            print("Black has started")
+            if Board.pieces[self.location[0] + 1][self.location[1]] is None:
+                position_pawn_can_move = [(self.location[0] + 1, self.location[1])]
+                print(position_pawn_can_move)
 
         print("move after map")
         print(position_pawn_can_move)
@@ -131,75 +137,118 @@ class Piece:
 
     def rook_valid_moves(self, Board) -> List[int]:
 
-        piece_to_validate_up = [Board.pieces[[self.location[0]][self.location[1] + 1]]]
-        piece_up_rook: List[Piece] = []
+        piece_to_validate_up = Board.pieces[self.location[0] - 1][self.location[1]]
+        location_up = [(self.location[0] - 1,self.location[1])]
+        print(location_up[0][1])
+        location_up_rook: List[Piece] = []
 
-        while piece_to_validate_up is None and is_within_board(piece_to_validate_up):
-            piece_up_rook = piece_up_rook.append(piece_to_validate_up)
-            piece_to_validate_up = Board.pieces[[piece_to_validate_up[0]][piece_to_validate_up[1] + 1]]
-            if piece_to_validate_up is not None and self.colorPiece is not Piece.ColorPiece:
-                piece_up_rook = piece_up_rook.append(piece_to_validate_up)
+        while piece_to_validate_up is None and self.is_within_board(location_up):
+            location_up_rook = list(location_up_rook + location_up)
+            location_up = [(location_up[0][0] - 1, location_up[0][1])]
+            
+
+            if piece_to_validate_up is not None and self.colorPiece is not Piece.colorPiece:
+                location_up_rook = location_up_rook + location_up
+                print('breaking out for capture!')
                 break
-            elif piece_to_validate_up is not None and self.colorPiece is Piece.ColorPiece:
+            elif piece_to_validate_up is not None and self.colorPiece is Piece.colorPiece:
+                print('breaking out, friend ahead!')
                 break
-            else:
-                continue
-        return piece_up_rook
-
-        piece_to_validate_down = [Board.pieces[[self.location[0]][self.location[1] - 1]]]
-        piece_down_rook: List[Piece] = []
-
-        while piece_to_validate_down is None and is_within_board(piece_to_validate_down):
-            piece_down_rook = piece_down_rook.append(piece_to_validate_down)
-            piece_to_validate_down = Board.pieces[[piece_to_validate_down[0]][piece_to_validate_down[1] - 1]]
-            if piece_to_validate_down is not None and self.colorPiece is not Piece.ColorPiece:
-                piece_down_rook = piece_down_rook.append(piece_to_validate_down)
+            elif self.is_within_board(location_up) is False:
+                print("Out of bound!")
                 break
-            elif piece_to_validate_down is not None and self.colorPiece is Piece.ColorPiece:
+
+            piece_to_validate_up = Board.pieces[location_up[0][0]][location_up[0][1]]
+        print(location_up_rook)
+
+
+        piece_to_validate_down = Board.pieces[self.location[0] + 1][self.location[1]]
+        location_down = [(self.location[0] + 1,self.location[1])]
+        print(location_down[0][1])
+        location_down_rook: List[Piece] = []
+
+        while piece_to_validate_down is None and self.is_within_board(location_down):
+            location_down_rook = list(location_down_rook + location_down)
+            location_down = [(location_down[0][0] + 1, location_down[0][1])]
+            
+
+            if piece_to_validate_down is not None and self.colorPiece is not Piece.colorPiece:
+                location_down_rook = location_down_rook + location_down
+                print('breaking out for capture!')
                 break
-            else:
-                continue
-        return piece_down_rook
-
-        piece_to_validate_right = [Board.pieces[[self.location[0] + 1][self.location[1]]]]
-        piece_right_rook: List[Piece] = []
-
-        while piece_to_validate_right is None and is_within_board(piece_to_validate_right):
-            piece_right_rook = piece_right_rook.append(piece_to_validate_right)
-            piece_to_validate_right = Board.pieces[[piece_to_validate_right[0] + 1][piece_to_validate_right[1]]]
-            if piece_to_validate_right is not None and self.colorPiece is not Piece.ColorPiece:
-                piece_right_rook = piece_right_rook.append(piece_to_validate_right)
+            elif piece_to_validate_down is not None and self.colorPiece is Piece.colorPiece:
+                print('breaking out, friend ahead!')
                 break
-            elif piece_to_validate_right is not None and self.colorPiece is Piece.ColorPiece:
+            elif self.is_within_board(location_down) is False:
+                print("Out of bound!")
                 break
-            else:
-                continue
-        return piece_right_rook
 
-        piece_to_validate_left = [Board.pieces[[self.location[0] - 1][self.location[1]]]]
-        piece_left_rook: List[Piece] = []
+            print('Here!')
+            piece_to_validate_down = Board.pieces[location_down[0][0]][location_down[0][1]]
+            print(location_down)
 
-        while piece_to_validate_left is None and is_within_board(piece_to_validate_left):
-            piece_left_rook = piece_left_rook.append(piece_to_validate_left)
-            piece_to_validate_left = Board.pieces[[piece_to_validate_left[0] - 1][piece_to_validate_left[1]]]
-            if piece_to_validate_left is not None and self.colorPiece is not Piece.ColorPiece:
-                piece_left_rook = piece_left_rook.append(piece_to_validate_left)
+
+
+        print(location_down_rook)
+
+
+        piece_to_validate_right = Board.pieces[self.location[0]][self.location[1] + 1]
+        location_right = [(self.location[0],self.location[1] + 1)]
+        print(location_right[0][1])
+        location_right_rook: List[Piece] = []
+
+        while piece_to_validate_right is None and self.is_within_board(location_right):
+            location_right_rook = list(location_right_rook + location_right)
+            location_right = [(location_right[0][0], location_right[0][1] + 1)]
+            
+
+            if piece_to_validate_right is not None and self.colorPiece is not Piece.colorPiece:
+                location_right_rook = location_right_rook + location_right
+                print('breaking out for capture!')
                 break
-            elif piece_to_validate_left is not None and self.colorPiece is Piece.ColorPiece:
+            elif piece_to_validate_right is not None and self.colorPiece is Piece.colorPiece:
+                print('breaking out, friend ahead!')
                 break
-            else:
-                continue
-        return piece_left_rook
+            elif self.is_within_board(location_right) is False:
+                print("Out of bound!")
+                break
 
-        valide_move_and_capture_piece_rook = []
-        valide_move_and_capture_piece_rook = valide_move_and_capture_piece_rook.append(piece_up_rook)
-        valide_move_and_capture_piece_rook = valide_move_and_capture_piece_rook.append(piece_down_rook)
-        valide_move_and_capture_piece_rook = valide_move_and_capture_piece_rook.append(piece_right_rook)
-        valide_move_and_capture_piece_rook = valide_move_and_capture_piece_rook.append(piece_left_rook)
+            piece_to_validate_right = Board.pieces[location_right[0][0]][location_right[0][1]]
+            
 
-        valide_move_and_capture_location_rook: List[(int, int)] = map(lambda piece: piece.location, valide_move_and_capture_piece_rook)
+
+        print(location_right_rook)
+
+        piece_to_validate_left = Board.pieces[self.location[0]][self.location[1] - 1]
+        location_left = [(self.location[0],self.location[1] - 1)]
+        print(location_left[0][1])
+        location_left_rook: List[Piece] = []
+
+        while piece_to_validate_left is None and self.is_within_board(location_left):
+            location_left_rook = list(location_left_rook + location_left)
+            location_left = [(location_left[0][0], location_left[0][1] - 1)]
+            
+            if self.is_within_board(location_left) is False:
+                print("Out of bound!")
+                break
+
+            piece_to_validate_left = Board.pieces[location_left[0][0]][location_left[0][1]]
+
+            if piece_to_validate_left is not None and self.colorPiece is not Piece.colorPiece:
+                location_left_rook = location_left_rook + location_left
+                print('breaking out for capture!')
+                break
+            elif piece_to_validate_left is not None and self.colorPiece is Piece.colorPiece:
+                print('breaking out, friend ahead!')
+                break
+
+
+        print(location_left_rook)
+
+        valide_move_and_capture_location_rook = location_up_rook + location_down_rook + location_right_rook + location_left_rook
 
         return valide_move_and_capture_location_rook
+
 
     def bishop_valid_moves(self, Board,) -> List[int]:
 
