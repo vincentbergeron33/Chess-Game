@@ -142,24 +142,29 @@ class Piece:
         print(location_up[0][1])
         location_up_rook: List[Piece] = []
 
-        while piece_to_validate_up is None and self.is_within_board(location_up):
-            location_up_rook = list(location_up_rook + location_up)
-            location_up = [(location_up[0][0] - 1, location_up[0][1])]
-            
-
-            if piece_to_validate_up is not None and self.colorPiece is not Piece.colorPiece:
+        if piece_to_validate_up is not None:
+            if self.colorPiece is not piece_to_validate_up.colorPiece:
                 location_up_rook = location_up_rook + location_up
                 print('breaking out for capture!')
-                break
-            elif piece_to_validate_up is not None and self.colorPiece is Piece.colorPiece:
+            else:
                 print('breaking out, friend ahead!')
-                break
-            elif self.is_within_board(location_up) is False:
-                print("Out of bound!")
-                break
+        else:
+            while piece_to_validate_up is None and self.is_within_board(location_up):
+                location_up_rook = list(location_up_rook + location_up)
+                location_up = [(location_up[0][0] - 1, location_up[0][1])]
+                
+                if self.is_within_board(location_up) is False:
+                    print("Out of bound!")
+                    break
 
-            piece_to_validate_up = Board.pieces[location_up[0][0]][location_up[0][1]]
-        print(location_up_rook)
+                piece_to_validate_up = Board.pieces[location_up[0][0]][location_up[0][1]]
+
+                if piece_to_validate_up is not None:
+                    if self.colorPiece is not piece_to_validate_up.colorPiece:
+                        location_up_rook = location_up_rook + location_up
+                        print('breaking out for capture!')
+                    else:
+                        print('breaking out, friend ahead!')
 
 
         piece_to_validate_down = Board.pieces[self.location[0] + 1][self.location[1]]
@@ -167,25 +172,29 @@ class Piece:
         print(location_down[0][1])
         location_down_rook: List[Piece] = []
 
-        while piece_to_validate_down is None and self.is_within_board(location_down):
-            location_down_rook = list(location_down_rook + location_down)
-            location_down = [(location_down[0][0] + 1, location_down[0][1])]
-            
-
-            if piece_to_validate_down is not None and self.colorPiece is not Piece.colorPiece:
+        if piece_to_validate_down is not None:
+            if self.colorPiece is not piece_to_validate_down.colorPiece:
                 location_down_rook = location_down_rook + location_down
                 print('breaking out for capture!')
-                break
-            elif piece_to_validate_down is not None and self.colorPiece is Piece.colorPiece:
+            else:
                 print('breaking out, friend ahead!')
-                break
-            elif self.is_within_board(location_down) is False:
-                print("Out of bound!")
-                break
+        else:
+            while piece_to_validate_down is None and self.is_within_board(location_down):
+                location_down_rook = list(location_down_rook + location_down)
+                location_down = [(location_down[0][0] + 1, location_down[0][1])]
+                
+                if self.is_within_board(location_down) is False:
+                    print("Out of bound!")
+                    break
 
-            print('Here!')
-            piece_to_validate_down = Board.pieces[location_down[0][0]][location_down[0][1]]
-            print(location_down)
+                piece_to_validate_down = Board.pieces[location_down[0][0]][location_down[0][1]]
+
+                if piece_to_validate_down is not None:
+                    if self.colorPiece is not piece_to_validate_down.colorPiece:
+                        location_down_rook = location_down_rook + location_down
+                        print('breaking out for capture!')
+                    else:
+                        print('breaking out, friend ahead!')
 
 
 
@@ -197,23 +206,29 @@ class Piece:
         print(location_right[0][1])
         location_right_rook: List[Piece] = []
 
-        while piece_to_validate_right is None and self.is_within_board(location_right):
-            location_right_rook = list(location_right_rook + location_right)
-            location_right = [(location_right[0][0], location_right[0][1] + 1)]
-            
-
-            if piece_to_validate_right is not None and self.colorPiece is not Piece.colorPiece:
+        if piece_to_validate_right is not None:
+            if self.colorPiece is not piece_to_validate_right.colorPiece:
                 location_right_rook = location_right_rook + location_right
                 print('breaking out for capture!')
-                break
-            elif piece_to_validate_right is not None and self.colorPiece is Piece.colorPiece:
+            else:
                 print('breaking out, friend ahead!')
-                break
-            elif self.is_within_board(location_right) is False:
-                print("Out of bound!")
-                break
+        else:
+            while piece_to_validate_right is None and self.is_within_board(location_right):
+                location_right_rook = list(location_right_rook + location_right)
+                location_right = [(location_right[0][0], location_right[0][1] + 1)]
+                
+                if self.is_within_board(location_right) is False:
+                    print("Out of bound!")
+                    break
 
-            piece_to_validate_right = Board.pieces[location_right[0][0]][location_right[0][1]]
+                piece_to_validate_right = Board.pieces[location_right[0][0]][location_right[0][1]]
+
+                if piece_to_validate_right is not None:
+                    if self.colorPiece is not piece_to_validate_right.colorPiece:
+                        location_right_rook = location_right_rook + location_right
+                        print('breaking out for capture!')
+                    else:
+                        print('breaking out, friend ahead!')
             
 
 
@@ -223,24 +238,30 @@ class Piece:
         location_left = [(self.location[0],self.location[1] - 1)]
         print(location_left[0][1])
         location_left_rook: List[Piece] = []
-
-        while piece_to_validate_left is None and self.is_within_board(location_left):
-            location_left_rook = list(location_left_rook + location_left)
-            location_left = [(location_left[0][0], location_left[0][1] - 1)]
-            
-            if self.is_within_board(location_left) is False:
-                print("Out of bound!")
-                break
-
-            piece_to_validate_left = Board.pieces[location_left[0][0]][location_left[0][1]]
-
-            if piece_to_validate_left is not None and self.colorPiece is not Piece.colorPiece:
+        
+        if piece_to_validate_left is not None:
+            if self.colorPiece is not piece_to_validate_left.colorPiece:
                 location_left_rook = location_left_rook + location_left
                 print('breaking out for capture!')
-                break
-            elif piece_to_validate_left is not None and self.colorPiece is Piece.colorPiece:
+            else:
                 print('breaking out, friend ahead!')
-                break
+        else:
+            while piece_to_validate_left is None and self.is_within_board(location_left):
+                location_left_rook = list(location_left_rook + location_left)
+                location_left = [(location_left[0][0], location_left[0][1] - 1)]
+                
+                if self.is_within_board(location_left) is False:
+                    print("Out of bound!")
+                    break
+
+                piece_to_validate_left = Board.pieces[location_left[0][0]][location_left[0][1]]
+
+                if piece_to_validate_left is not None:
+                    if self.colorPiece is not piece_to_validate_left.colorPiece:
+                        location_left_rook = location_left_rook + location_left
+                        print('breaking out for capture!')
+                    else:
+                        print('breaking out, friend ahead!')
 
 
         print(location_left_rook)
