@@ -15,7 +15,7 @@ class Boardtest(unittest.TestCase, Board, Piece):
                 [None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None],
-                [Piece(TypePiece.PAWN, ColorPiece.BLACK, (5, 0)), Piece(TypePiece.ROOK, ColorPiece.WHITE, (5, 1)), None, None, None, None, None, Piece(TypePiece.PAWN, ColorPiece.BLACK, (5, 7))],
+                [Piece(TypePiece.PAWN, ColorPiece.BLACK, (5, 0)), Piece(TypePiece.BISHOP, ColorPiece.WHITE, (5, 1)), None, None, None, None, None, Piece(TypePiece.PAWN, ColorPiece.BLACK, (5, 7))],
                 [None, None, None, None, None, None, None, None],
                 [Piece(TypePiece.PAWN, ColorPiece.WHITE, (7, 0)), Piece(TypePiece.PAWN, ColorPiece.WHITE, (7, 1)), None, None, None, None, None, None],
             ]

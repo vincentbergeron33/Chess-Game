@@ -273,51 +273,91 @@ class Piece:
 
     def bishop_valid_moves(self, Board,) -> List[int]:
 
-        piece_to_validate_up_right = [Board.pieces[[self.location[0] + 1][self.location[1] + 1]]]
-        piece_up_right_bishop: List[Piece] = []
-
-        while piece_to_validate_up_right is None and is_within_board(piece_to_validate_up_right):
-            piece_up_right_bishop = piece_up_right_bishop.append(piece_to_validate_up_right)
-            piece_to_validate_up_right = Board.pieces[[piece_to_validate_up_right[0] + 1][piece_to_validate_up_right[1] + 1]]
-            if piece_to_validate_up_right is not None and self.colorPiece is not Piece.ColorPiece:
-                piece_up_right_bishop = piece_up_right_bishop.append(piece_to_validate_up_right)
-                break
-            elif piece_to_validate_up_right is not None and self.colorPiece is Piece.ColorPiece:
-                break
+        piece_to_validate_up_right = Board.pieces[self.location[0] - 1][self.location[1] + 1]
+        location_up_right = [(self.location[0] - 1,self.location[1] + 1)]
+        print(location_up_right[0][1])
+        location_up_right_bishop: List[Piece] = []
+        
+        if piece_to_validate_up_right is not None:
+            if self.colorPiece is not piece_to_validate_up_right.colorPiece:
+                location_up_right_bishop = location_up_right_bishop + location_up_right
+                print('breaking out for capture!')
             else:
-                continue
-        return piece_up_right_bishop
+                print('breaking out, friend ahead!')
+        else:
+            while piece_to_validate_up_right is None and self.is_within_board(location_up_right):
+                location_up_right_bishop = list(location_up_right_bishop + location_up_right)
+                location_up_right = [(location_up_right[0][0] - 1, location_up_right[0][1] + 1)]
+                if self.is_within_board(location_up_right) is False:
+                    print("Out of bound!")
+                    break
 
-        piece_to_validate_up_left = [Board.pieces[[self.location[0] - 1][self.location[1] + 1]]]
-        piece_up_left_bishop: List[Piece] = []
+                piece_to_validate_up_right = Board.pieces[location_up_right[0][0]][location_up_right[0][1]]
 
-        while piece_to_validate_up_left is None and is_within_board(piece_to_validate_up_left):
-            piece_up_left_bishop = piece_up_left_bishop.append(piece_to_validate_up_left)
-            piece_to_validate_up_left = Board.pieces[[piece_to_validate_up_left[0] - 1][piece_to_validate_up_left[1] + 1]]
-            if piece_to_validate_up_left is not None and self.colorPiece is not Piece.ColorPiece:
-                piece_up_left_bishop = piece_up_left_bishop.append(piece_to_validate_up_left)
-                break
-            elif piece_to_validate_up_left is not None and self.colorPiece is Piece.ColorPiece:
-                break
+                if piece_to_validate_up_right is not None:
+                    if self.colorPiece is not piece_to_validate_up_right.colorPiece:
+                        location_up_right_bishop = location_up_right_bishop + location_up_right
+                        print('breaking out for capture!')
+                    else:
+                        print('breaking out, friend ahead!')
+
+        piece_to_validate_up_left = Board.pieces[self.location[0] - 1][self.location[1] - 1]
+        location_up_left = [(self.location[0] - 1,self.location[1] - 1)]
+        print(location_up_left[0][1])
+        location_up_left_bishop: List[Piece] = []
+        
+        if piece_to_validate_up_left is not None:
+            if self.colorPiece is not piece_to_validate_up_left.colorPiece:
+                location_up_left_bishop = location_up_left_bishop + location_up_left
+                print('breaking out for capture!')
             else:
-                continue
-        return piece_up_left_bishop
+                print('breaking out, friend ahead!')
+        else:
+            while piece_to_validate_up_left is None and self.is_within_board(location_up_left):
+                location_up_left_bishop = list(location_up_left_bishop + location_up_left)
+                location_up_left = [(location_up_left[0][0] - 1, location_up_left[0][1] - 1)]
+                if self.is_within_board(location_up_left) is False:
+                    print("Out of bound!")
+                    break
 
-        piece_to_validate_down_left = [Board.pieces[[self.location[0] - 1][self.location[1] - 1]]]
-        piece_down_left_bishop: List[Piece] = []
+                piece_to_validate_up_left = Board.pieces[location_up_left[0][0]][location_up_left[0][1]]
 
-        while piece_to_validate_down_left is None and is_within_board(piece_to_validate_down_left):
-            piece_down_left_bishop = piece_down_left_bishop.append(piece_to_validate_down_left)
-            piece_to_validate_down_left = Board.pieces[[piece_to_validate_down_left[0] - 1][piece_to_validate_down_left[1] - 1]]
-            if piece_to_validate_down_left is not None and self.colorPiece is not Piece.ColorPiece:
-                piece_down_left_bishop = piece_down_left_bishop.append(piece_to_validate_down_left)
-                break
-            elif piece_to_validate_down_left is not None and self.colorPiece is Piece.ColorPiece:
-                break
+                if piece_to_validate_up_left is not None:
+                    if self.colorPiece is not piece_to_validate_up_left.colorPiece:
+                        location_up_left_bishop = location_up_left_bishop + location_up_left
+                        print('breaking out for capture!')
+                    else:
+                        print('breaking out, friend ahead!')
+
+
+        piece_to_validate_down_left = Board.pieces[self.location[0] + 1][self.location[1] - 1]
+        location_down_left = [(self.location[0] + 1,self.location[1] - 1)]
+        print(location_down_left[0][1])
+        location_down_left_bishop: List[Piece] = []
+        
+        if piece_to_validate_down_left is not None:
+            if self.colorPiece is not piece_to_validate_down_left.colorPiece:
+                location_down_left_bishop = location_down_left_bishop + location_down_left
+                print('breaking out for capture!')
             else:
-                continue
+                print('breaking out, friend ahead!')
+        else:
+            while piece_to_validate_down_left is None and self.is_within_board(location_down_left):
+                location_down_left_bishop = list(location_down_left_bishop + location_down_left)
+                location_down_left = [(location_down_left[0][0] + 1, location_down_left[0][1] - 1)]
+                if self.is_within_board(location_down_left) is False:
+                    print("Out of bound!")
+                    break
 
-        return piece_down_left_bishop
+                piece_to_validate_down_left = Board.pieces[location_down_left[0][0]][location_down_left[0][1]]
+
+                if piece_to_validate_down_left is not None:
+                    if self.colorPiece is not piece_to_validate_down_left.colorPiece:
+                        location_down_left_bishop = location_down_left_bishop + location_down_left
+                        print('breaking out for capture!')
+                    else:
+                        print('breaking out, friend ahead!')
+
 
         piece_to_validate_down_right = [Board.pieces[[self.location[0] + 1][self.location[1] - 1]]]
         piece_down_right_bishop: List[Piece] = []
@@ -332,15 +372,10 @@ class Piece:
                 break
             else:
                 continue
-        return piece_down_right_bishop
 
-        valide_move_and_capture_piece_bishop: List[Piece] = []
-        valide_move_and_capture_piece_bishop = valide_move_and_capture_piece_bishop.append(piece_up_right_bishop)
-        valide_move_and_capture_piece_bishop = valide_move_and_capture_piece_bishop.append(piece_up_left_bishop)
-        valide_move_and_capture_piece_bishop = valide_move_and_capture_piece_bishop.append(piece_down_left_bishop)
-        valide_move_and_capture_piece_bishop = valide_move_and_capture_piece_bishop.append(piece_down_right_bishop)
 
-        valide_move_and_capture_location_bishop: List[(int, int)] = map(lambda piece: piece.location, valide_move_and_capture_piece_bishop)
+        valide_move_and_capture_location_bishop = location_up_right_bishop + location_up_left_bishop + location_down_left_bishop
+  
 
         return valide_move_and_capture_location_bishop
 
