@@ -359,22 +359,36 @@ class Piece:
                         print('breaking out, friend ahead!')
 
 
-        piece_to_validate_down_right = [Board.pieces[[self.location[0] + 1][self.location[1] - 1]]]
-        piece_down_right_bishop: List[Piece] = []
-
-        while piece_to_validate_down_right is None and is_within_board(piece_to_validate_down_right):
-            piece_down_right_bishop = piece_down_right_bishop.append(piece_to_validate_down_right)
-            piece_to_validate_down_right = Board.pieces[[piece_to_validate_down_right[0] - 1][piece_to_validate_down_right[1] - 1]]
-            if piece_to_validate_down_right is not None and self.colorPiece is not Piece.ColorPiece:
-                piece_down_right_bishop = piece_down_right_bishop.append(piece_to_validate_down_right)
-                break
-            elif piece_to_validate_down_right is not None and self.colorPiece is Piece.ColorPiece:
-                break
+        piece_to_validate_down_right = Board.pieces[self.location[0] + 1][self.location[1] + 1]
+        location_down_right = [(self.location[0] + 1,self.location[1] + 1)]
+        print(location_down_right[0][1])
+        location_down_right_bishop: List[Piece] = []
+        
+        if piece_to_validate_down_right is not None:
+            if self.colorPiece is not piece_to_validate_down_right.colorPiece:
+                location_down_right_bishop = location_down_right_bishop + location_down_right
+                print('breaking out for capture!')
             else:
-                continue
+                print('breaking out, friend ahead!')
+        else:
+            while piece_to_validate_down_right is None and self.is_within_board(location_down_right):
+                location_down_right_bishop = list(location_down_right_bishop + location_down_right)
+                location_down_right = [(location_down_right[0][0] + 1, location_down_right[0][1] + 1)]
+                if self.is_within_board(location_down_right) is False:
+                    print("Out of bound!")
+                    break
+
+                piece_to_validate_down_right = Board.pieces[location_down_right[0][0]][location_down_right[0][1]]
+
+                if piece_to_validate_down_right is not None:
+                    if self.colorPiece is not piece_to_validate_down_right.colorPiece:
+                        location_down_right_bishop = location_down_right_bishop + location_down_right
+                        print('breaking out for capture!')
+                    else:
+                        print('breaking out, friend ahead!')
 
 
-        valide_move_and_capture_location_bishop = location_up_right_bishop + location_up_left_bishop + location_down_left_bishop
+        valide_move_and_capture_location_bishop = location_up_right_bishop + location_up_left_bishop + location_down_left_bishop + location_down_right_bishop
   
 
         return valide_move_and_capture_location_bishop
