@@ -6,22 +6,23 @@ from Piece import TypePiece
 from Piece import ColorPiece
 
 
-class Boardtest(unittest.TestCase, Board, Piece):
+class Boardtest(unittest.TestCase):
 
-    def test_pawn_can_capture(Board):
-        Board.pieces = [
+    def test_pawn_can_capture(self):
+        board = Board(
+        pieces = [
                 [None, Piece(TypePiece.PAWN, ColorPiece.BLACK, (0, 1)), None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None],
-                [Piece(TypePiece.PAWN, ColorPiece.BLACK, (5, 0)), Piece(TypePiece.KING, ColorPiece.WHITE, (5, 1)), None, None, None, None, None, Piece(TypePiece.PAWN, ColorPiece.BLACK, (5, 7))],
+                [Piece(TypePiece.PAWN, ColorPiece.BLACK, (5, 0)), Piece(TypePiece.QUEEN, ColorPiece.WHITE, (5, 1)), None, None, None, None, None, Piece(TypePiece.PAWN, ColorPiece.BLACK, (5, 7))],
                 [None, Piece(TypePiece.PAWN, ColorPiece.WHITE, (6, 1)), None, None, None, None, None, None],
                 [Piece(TypePiece.PAWN, ColorPiece.BLACK, (7, 0)), Piece(TypePiece.KNIGHT, ColorPiece.WHITE, (7, 1)), None, None, None, None, None, None],
-            ]
+            ])
         
-        test = print(Board.pieces[1][0])
-        actual_movement = Board.pieces[5][1].movement(Board)
+        test = print(board.pieces[1][0])
+        actual_movement = board.pieces[5][1].movement(Board)
         expected_movement = [(0, 0), (0, 1)]
         final = actual_movement
 
@@ -29,4 +30,5 @@ class Boardtest(unittest.TestCase, Board, Piece):
         return print(final)
 
 
-pawnmove = Boardtest.test_pawn_can_capture(Board)
+boardtest = Boardtest()
+pawnmove = boardtest.test_pawn_can_capture()

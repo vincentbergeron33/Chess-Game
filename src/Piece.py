@@ -25,6 +25,7 @@ class Piece:
     colorPiece: ColorPiece
     location: (int, int)
     
+    #startingLocation doesnt
     def __post_init__(self):
         self.startingLocation = self.location
 
@@ -436,7 +437,6 @@ class Piece:
 
         return valide_location_king
             
-
 @dataclass
 class Board:
     pieces: List[List[Optional[Piece]]]
@@ -475,7 +475,10 @@ class Board:
 
     def printboard(self):
         for i in range(0, len(self.pieces)):
+            print(i)
             for j in range(0, len(self.pieces[i])):
+                if i == 0:
+                    print(f' {j}')
                 piece = self.pieces[i][j]
                 if piece is not None:
                     printPiecesOnBoard(piece.typePiece, piece.ColorPiece)
