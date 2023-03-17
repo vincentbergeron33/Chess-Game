@@ -15,13 +15,13 @@ class Boardtest(unittest.TestCase, Board, Piece):
                 [None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None],
-                [Piece(TypePiece.PAWN, ColorPiece.BLACK, (5, 0)), Piece(TypePiece.PAWN, ColorPiece.WHITE, (5, 1)), None, None, None, None, None, Piece(TypePiece.PAWN, ColorPiece.BLACK, (5, 7))],
+                [Piece(TypePiece.PAWN, ColorPiece.BLACK, (5, 0)), Piece(TypePiece.KING, ColorPiece.WHITE, (5, 1)), None, None, None, None, None, Piece(TypePiece.PAWN, ColorPiece.BLACK, (5, 7))],
                 [None, Piece(TypePiece.PAWN, ColorPiece.WHITE, (6, 1)), None, None, None, None, None, None],
-                [Piece(TypePiece.PAWN, ColorPiece.WHITE, (7, 0)), Piece(TypePiece.KING, ColorPiece.WHITE, (7, 1)), None, None, None, None, None, None],
+                [Piece(TypePiece.PAWN, ColorPiece.BLACK, (7, 0)), Piece(TypePiece.KNIGHT, ColorPiece.WHITE, (7, 1)), None, None, None, None, None, None],
             ]
         
         test = print(Board.pieces[1][0])
-        actual_movement = Board.pieces[7][1].movement(Board)
+        actual_movement = Board.pieces[5][1].movement(Board)
         expected_movement = [(0, 0), (0, 1)]
         final = actual_movement
 

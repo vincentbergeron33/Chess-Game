@@ -397,24 +397,21 @@ class Piece:
     def knight_valid_moves(self, Board) -> List[int]:
         x = self.location[0]
         y = self.location[1]
-        pieces_to_validate = Board.pieces[list(product([x - 1, x + 1], [y - 2, x - 2])) + list(product([x - 2, x + 2], [y - 1, y + 1]))]
-        valide_move_piece_knight = []
-        valide_capture_piece_knight = []
-        for piece in pieces_to_validate:
-            if is_within_board(piece):
+        location_to_validate = list(product([x - 1, x + 1], [y - 2, x - 2])) + list(product([x - 2, x + 2], [y - 1, y + 1]))
+        valide_location_knight = []
+        print(location_to_validate)
+        for location in location_to_validate:
+            if self.is_within_board([location]):
+                piece = Board.pieces[location[0]][location[1]]
                 if piece is None:
-                    valide_move_piece_knight = valide_move_piece_knight.append(piece)
-                elif piece is not None and self.colorPiece is not piece.ColorPiece:
-                    valide_capture_piece_knight = valide_capture_piece_knight.append(piece)
+                    valide_location_knight = valide_location_knight + [location]
+                elif piece is not None and self.colorPiece is not piece.colorPiece:
+                    valide_location_knight = valide_location_knight + [location]
                 else:
                     continue
-        
-        valide_move_and_capture_piece_knight: List[Piece] = []
-        valide_move_and_capture_piece_knight = valide_move_and_capture_piece_knight.append(valide_move_piece_knight)
-        valide_move_and_capture_piece_knight = valide_move_and_capture_piece_knight.append(valide_capture_piece_knight)
+            print(valide_location_knight)
 
-        valide_move_and_capture_location_knight: List[int, int] = map(lambda piece: piece.location, valide_move_and_capture_piece_knight)
-        return valide_move_and_capture_location_knight
+        return valide_location_knight
 
     def king_valid_moves(self, Board) -> List[int]:
         x = self.location[0]
