@@ -395,8 +395,8 @@ class Piece:
 
 
     def knight_valid_moves(self, Board) -> List[int]:
-        x = [self.location[0]]
-        y = [self.location[1]]
+        x = self.location[0]
+        y = self.location[1]
         pieces_to_validate = Board.pieces[list(product([x - 1, x + 1], [y - 2, x - 2])) + list(product([x - 2, x + 2], [y - 1, y + 1]))]
         valide_move_piece_knight = []
         valide_capture_piece_knight = []
@@ -419,23 +419,25 @@ class Piece:
     def king_valid_moves(self, Board) -> List[int]:
         x = self.location[0]
         y = self.location[1]
-        piece_to_validate = Board.pieces[
-            [x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1],
-             [x + 1, y + 1], [x - 1, y + 1], [x + 1, y - 1], [x - 1, y + 1]
+        location_to_validate = [
+             (x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1),
+             (x + 1, y + 1), (x - 1, y + 1), (x + 1, y - 1), (x - 1, y - 1)
              ]
-        valide_move_piece_king: List[Piece] = []
-        for piece in piece_to_validate:
-            if is_within_board(piece):
-                if piece is None:
-                    valide_move_piece_king = valide_move_piece_king.append(piece)
-                elif piece is not None and self.colorPiece is not piece.ColorPiece:
-                    valide_move_piece_king = valide_move_piece_king.append(piece)
-                else:
-                    continue
-            else:
-                continue
-        valide_moves_location_king = map(lambda piece: piece.location, valide_move_piece_king)
-        return valide_moves_location_king
+        print('printing piece to validate...')
+        print(location_to_validate)
+        valide_location_king: List[Location] = []
+        for location in location_to_validate:
+            print(location)
+            if self.is_within_board([location]):
+                if Board.pieces[location[0]][location[1]] is None:
+                    valide_location_king = valide_location_king + [location]
+                elif Board.pieces[location[0]][location[1]] is not None:
+                    if self.colorPiece is not Board.pieces[location[0]][location[1]].colorPiece:
+                        valide_location_king = valide_location_king + [location]
+        
+        print(valide_location_king)
+
+        return valide_location_king
             
 
 @dataclass
