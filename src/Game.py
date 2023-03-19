@@ -1,12 +1,12 @@
 
 
+
 @dataclass
 class Game():
     board: Board
     player_white: Player
     player_black: Player
     currentPlayer: Player
-
 
     def run_game(self):
         while checkmate() is not True:
@@ -36,24 +36,25 @@ class Game():
             print('It is white turn')
 
 
-
-
-
 def set_up_board() -> Board:
-    board = Board(pieces = [None, None, None, None, None, None])
-    return board
+    starting_board = Board(pieces = [None, None, None, None, None, None])
+    return starting_board
+
 
 board = set_up_board()
+
 
 def set_up_players() -> Tuple[Player, Player]:
     player_white_name = input("Enter white player name:")
     player_black_name = input("Enter black player name")
-    player_white =  Player(player_white_name)
+    player_white = Player(player_white_name)
     player_black = Player(player_black_name)
 
     return (player_white, player_black)
+
+    
 players = set_up_players()
 
-game = Game(board, players[0], players[1], currentPlayer = players[1])
+game = Game(board, players[0], players[1], players[1])
 
 game.run_game()

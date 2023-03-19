@@ -9,8 +9,7 @@ from Piece import ColorPiece
 class Boardtest(unittest.TestCase):
 
     def test_pawn_can_capture(self):
-        board = Board(
-        pieces = [
+        board = Board(pieces = [
                 [None, Piece(TypePiece.PAWN, ColorPiece.BLACK, (0, 1)), None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None],
@@ -21,8 +20,8 @@ class Boardtest(unittest.TestCase):
                 [Piece(TypePiece.PAWN, ColorPiece.BLACK, (7, 0)), Piece(TypePiece.KNIGHT, ColorPiece.WHITE, (7, 1)), None, None, None, None, None, None],
             ])
         
-        test = print(board.pieces[1][0])
-        actual_movement = board.pieces[5][1].movement(Board)
+        print(board.pieces[1][0])
+        actual_movement = board.pieces[5][1].movement(board)
         expected_movement = [(0, 0), (0, 1)]
         final = actual_movement
 
