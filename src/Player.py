@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from Piece import Piece
 
 @dataclass
 class Player:
@@ -6,6 +7,7 @@ class Player:
 
     def choose_piece_to_play(self):
         while True:
+            print("Please select the piece you would like to play...")
             try:
                 piece_coordinate_x = int(input("Enter the row's variable between 0 and 7:"))
                 piece_coordinate_y = int(input("Enter the colum's variable between 0 and 7:"))
@@ -35,5 +37,13 @@ class Player:
 
 
     
-    def choose_move_to_play():
-        input()
+    def choose_move_to_play(piece_to_play):
+        print("Please select the location you would like to move your piece")
+        print(piece_to_play.movement(board))
+
+        while True:
+            try:
+                piece_coordinate_x = int(input("Enter the row's variable between 0 and 7:"))
+                piece_coordinate_y = int(input("Enter the colum's variable between 0 and 7:"))
+            except ValueError:
+                print('please enter a number')
