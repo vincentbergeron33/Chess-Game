@@ -19,7 +19,6 @@ class Player:
                 if game.currentPlayer is players[0]:
                     if board.pieces[piece_coordinate_x][piece_coordinate_y].colorPiece is ColorPiece.WHITE:
                         print(f'You have selected {board.pieces[piece_coordinate_x][piece_coordinate_y].typePiece} at location ({piece_coordinate_x}, {piece_coordinate_y})')
-                        piece_to_play = board.pieces[piece_coordinate_x][piece_coordinate_y]
                         break
                     else:
                         print("You have selected the wrong color!")
@@ -37,7 +36,7 @@ class Player:
             else:
                 print("Please select a coordinate within the board")
                 continue
-        return piece_to_play
+        return board.pieces[piece_coordinate_x][piece_coordinate_y]
 
 
 
