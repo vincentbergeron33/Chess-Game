@@ -61,55 +61,35 @@ class Piece:
     def pawn_can_move_two(self, Board):
         if self.colorPiece is ColorPiece.WHITE:
             if Board.pieces[self.location[0] - 1][self.location[1]] is None:
-                print((self.location[0], self.location[1]))
                 piece_pawn_can_move_two = [(self.location[0] - 1, self.location[1])]
-                print("Printing first element of two")
-                print(piece_pawn_can_move_two)
                 if Board.pieces[self.location[0] - 2][self.location[1]] is None:
                     piece_pawn_can_move_two = piece_pawn_can_move_two + ([
                         (self.location[0] - 2, self.location[1])
                         ])
-                    print("Two move return locations")
-                    print(piece_pawn_can_move_two)
             else:
-                print("Two returns nothing")
                 return []
         else:
             if Board.pieces[self.location[0] + 1][self.location[1]] is None:
                 print((self.location[0], self.location[1]))
                 piece_pawn_can_move_two = [(self.location[0] + 1, self.location[1])]
-                print("Printing first element of two")
-                print(piece_pawn_can_move_two)
                 if Board.pieces[self.location[0] + 2][self.location[1]] is None:
                     piece_pawn_can_move_two = piece_pawn_can_move_two + ([
                         (self.location[0] + 2, self.location[1])
                         ])
-                    print("Two move return locations")
-                    print(piece_pawn_can_move_two)
             else:
-                print("Two returns nothing")
                 return []
 
         return piece_pawn_can_move_two
 
     def pawn_valid_moves(self, Board) -> List[int]:
         if self.is_at_starting_location():
-            print("Move Two has started")
             position_pawn_can_move = self.pawn_can_move_two(Board)
-            print(position_pawn_can_move)
         elif self.colorPiece is ColorPiece.WHITE:
-            print("move has started")
             if Board.pieces[self.location[0] - 1][self.location[1]] is None:
                 position_pawn_can_move = [(self.location[0] - 1, self.location[1])]
-                print(position_pawn_can_move)
         else:
-            print("Black has started")
             if Board.pieces[self.location[0] + 1][self.location[1]] is None:
                 position_pawn_can_move = [(self.location[0] + 1, self.location[1])]
-                print(position_pawn_can_move)
-
-        print("move after map")
-        print(position_pawn_can_move)
 
         return position_pawn_can_move      
 
@@ -119,8 +99,6 @@ class Piece:
                 Board.pieces[self.location[0] - 1][self.location[1] + 1],
                 Board.pieces[self.location[0] - 1][self.location[1] - 1],
             ]
-            print("Capture when White!")
-            print(pieces_to_validate)
         else:
             pieces_to_validate: List[Piece] = [
                 Board.pieces[self.location[0] + 1][self.location[1] + 1],
@@ -128,11 +106,7 @@ class Piece:
             ]
 
         pieces_pawn_can_capture: List[Piece] = filter(lambda piece: piece is not None and self.colorPiece is not piece.colorPiece, pieces_to_validate)
-        print("capture before map")
-        print(pieces_pawn_can_capture)
         positions_pawn_can_capture: List[int] = list(map(lambda piece: piece.location, pieces_pawn_can_capture))
-        print("capture after map")
-        print(positions_pawn_can_capture)
 
         return positions_pawn_can_capture
 
@@ -441,7 +415,7 @@ class Piece:
 class Board:
     pieces: List[List[Optional[Piece]]]
 
-    def printPiecesOnBoard(typePiece, colorPiece):
+    def print_pieces_on_board(self, typePiece, colorPiece):
         if TypePiece is typePiece.PAWN:
             if ColorPiece is colorPiece.WHITE:
                 print('WP')
@@ -463,7 +437,7 @@ class Board:
             else:
                 print('BK')
         elif TypePiece is typePiece.QUEEN:
-            if DolorPiece is colorPiece.WHITE:
+            if ColorPiece is colorPiece.WHITE:
                 Print('WQ')
             else:
                 print('BQ')
@@ -473,15 +447,15 @@ class Board:
             else:
                 print('BK')
 
-    def printboard(self):
+    def printboard(self, board):
         for i in range(0, len(self.pieces)):
             print(i)
             for j in range(0, len(self.pieces[i])):
                 if i == 0:
-                    print(f' {j}')
-                piece = self.pieces[i][j]
+                    print(f' {j}\n')
+                piece = board.pieces[i][j]
                 if piece is not None:
-                    printPiecesOnBoard(piece.typePiece, piece.ColorPiece)
+                    self.print_pieces_on_board(piece.typePiece, piece.colorPiece)
                 else:
                     print(' ')
 

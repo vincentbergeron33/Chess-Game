@@ -18,7 +18,7 @@ class Boardtest(unittest.TestCase):
                 [Piece(TypePiece.PAWN, ColorPiece.BLACK, (5, 0)), Piece(TypePiece.QUEEN, ColorPiece.WHITE, (5, 1)), None, None, None, None, None, Piece(TypePiece.PAWN, ColorPiece.BLACK, (5, 7))],
                 [None, Piece(TypePiece.PAWN, ColorPiece.WHITE, (6, 1)), None, None, None, None, None, None],
                 [Piece(TypePiece.PAWN, ColorPiece.BLACK, (7, 0)), Piece(TypePiece.KNIGHT, ColorPiece.WHITE, (7, 1)), None, None, None, None, None, None],
-            ])
+                ])
         
         print(board.pieces[1][0])
         actual_movement = board.pieces[5][1].movement(board)
