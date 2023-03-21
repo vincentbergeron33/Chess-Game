@@ -28,10 +28,10 @@ class Game():
     def set_player_turn(self):
         if game.currentPlayer is players[0]:
             game.currentPlayer = players[1]
-            print('It is black turn')
+            print('\nIt is black turn')
         else:
             game.currentPlayer = players[0]
-            print('It is white turn')
+            print('\nIt is white turn')
 
 
 checkmate = False

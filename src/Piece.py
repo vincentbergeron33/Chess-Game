@@ -224,97 +224,101 @@ class Piece:
 
     def bishop_valid_moves(self, Board,) -> List[int]:
 
-        piece_to_validate_up_right = Board.pieces[self.location[0] - 1][self.location[1] + 1]
+       
         location_up_right = [(self.location[0] - 1,self.location[1] + 1)]
         location_up_right_bishop: List[Piece] = []
-        
-        if piece_to_validate_up_right is not None:
-            if self.colorPiece is not piece_to_validate_up_right.colorPiece:
-                location_up_right_bishop = location_up_right_bishop + location_up_right
 
-        else:
-            while piece_to_validate_up_right is None and self.is_within_board(location_up_right):
-                location_up_right_bishop = list(location_up_right_bishop + location_up_right)
-                location_up_right = [(location_up_right[0][0] - 1, location_up_right[0][1] + 1)]
-                if self.is_within_board(location_up_right) is False:
-                    break
-
-                piece_to_validate_up_right = Board.pieces[location_up_right[0][0]][location_up_right[0][1]]
-
-                if piece_to_validate_up_right is not None:
-                    if self.colorPiece is not piece_to_validate_up_right.colorPiece:
-                        location_up_right_bishop = location_up_right_bishop + location_up_right
-                    else:
+        if self.is_within_board(location_up_right):
+            piece_to_validate_up_right = Board.pieces[self.location[0] - 1][self.location[1] + 1]
+            if piece_to_validate_up_right is not None:
+                if self.colorPiece is not piece_to_validate_up_right.colorPiece:
+                    location_up_right_bishop = location_up_right_bishop + location_up_right
+            else:
+                while piece_to_validate_up_right is None and self.is_within_board(location_up_right):
+                    location_up_right_bishop = list(location_up_right_bishop + location_up_right)
+                    location_up_right = [(location_up_right[0][0] - 1, location_up_right[0][1] + 1)]
+                    if self.is_within_board(location_up_right) is False:
                         break
 
-        piece_to_validate_up_left = Board.pieces[self.location[0] - 1][self.location[1] - 1]
+                    piece_to_validate_up_right = Board.pieces[location_up_right[0][0]][location_up_right[0][1]]
+
+                    if piece_to_validate_up_right is not None:
+                        if self.colorPiece is not piece_to_validate_up_right.colorPiece:
+                            location_up_right_bishop = location_up_right_bishop + location_up_right
+                        else:
+                            break
+
         location_up_left = [(self.location[0] - 1,self.location[1] - 1)]
         location_up_left_bishop: List[Piece] = []
-        
-        if piece_to_validate_up_left is not None:
-            if self.colorPiece is not piece_to_validate_up_left.colorPiece:
-                location_up_left_bishop = location_up_left_bishop + location_up_left
-        else:
-            while piece_to_validate_up_left is None and self.is_within_board(location_up_left):
-                location_up_left_bishop = list(location_up_left_bishop + location_up_left)
-                location_up_left = [(location_up_left[0][0] - 1, location_up_left[0][1] - 1)]
-                if self.is_within_board(location_up_left) is False:
-                    break
 
-                piece_to_validate_up_left = Board.pieces[location_up_left[0][0]][location_up_left[0][1]]
-
-                if piece_to_validate_up_left is not None:
-                    if self.colorPiece is not piece_to_validate_up_left.colorPiece:
-                        location_up_left_bishop = location_up_left_bishop + location_up_left
-                    else:
+        if self.is_within_board(location_up_left):
+            piece_to_validate_up_left = Board.pieces[self.location[0] - 1][self.location[1] - 1]
+            if piece_to_validate_up_left is not None:
+                if self.colorPiece is not piece_to_validate_up_left.colorPiece:
+                    location_up_left_bishop = location_up_left_bishop + location_up_left
+            else:
+                while piece_to_validate_up_left is None and self.is_within_board(location_up_left):
+                    location_up_left_bishop = list(location_up_left_bishop + location_up_left)
+                    location_up_left = [(location_up_left[0][0] - 1, location_up_left[0][1] - 1)]
+                    if self.is_within_board(location_up_left) is False:
                         break
 
+                    piece_to_validate_up_left = Board.pieces[location_up_left[0][0]][location_up_left[0][1]]
 
-        piece_to_validate_down_left = Board.pieces[self.location[0] + 1][self.location[1] - 1]
-        location_down_left = [(self.location[0] + 1,self.location[1] - 1)]
-        location_down_left_bishop: List[Piece] = []
-        
-        if piece_to_validate_down_left is not None:
-            if self.colorPiece is not piece_to_validate_down_left.colorPiece:
-                location_down_left_bishop = location_down_left_bishop + location_down_left
-        else:
-            while piece_to_validate_down_left is None and self.is_within_board(location_down_left):
-                location_down_left_bishop = list(location_down_left_bishop + location_down_left)
-                location_down_left = [(location_down_left[0][0] + 1, location_down_left[0][1] - 1)]
-                if self.is_within_board(location_down_left) is False:
-                    break
+                    if piece_to_validate_up_left is not None:
+                        if self.colorPiece is not piece_to_validate_up_left.colorPiece:
+                            location_up_left_bishop = location_up_left_bishop + location_up_left
+                        else:
+                            break
 
-                piece_to_validate_down_left = Board.pieces[location_down_left[0][0]][location_down_left[0][1]]
 
+            
+            location_down_left = [(self.location[0] + 1,self.location[1] - 1)]
+            location_down_left_bishop: List[Piece] = []
+
+            if self.is_within_board(location_down_left):
+                piece_to_validate_down_left = Board.pieces[self.location[0] + 1][self.location[1] - 1]
                 if piece_to_validate_down_left is not None:
                     if self.colorPiece is not piece_to_validate_down_left.colorPiece:
                         location_down_left_bishop = location_down_left_bishop + location_down_left
-                    else:
-                        break
+                else:
+                    while piece_to_validate_down_left is None and self.is_within_board(location_down_left):
+                        location_down_left_bishop = list(location_down_left_bishop + location_down_left)
+                        location_down_left = [(location_down_left[0][0] + 1, location_down_left[0][1] - 1)]
+                        if self.is_within_board(location_down_left) is False:
+                            break
 
+                        piece_to_validate_down_left = Board.pieces[location_down_left[0][0]][location_down_left[0][1]]
 
-        piece_to_validate_down_right = Board.pieces[self.location[0] + 1][self.location[1] + 1]
+                        if piece_to_validate_down_left is not None:
+                            if self.colorPiece is not piece_to_validate_down_left.colorPiece:
+                                location_down_left_bishop = location_down_left_bishop + location_down_left
+                            else:
+                                break
+
         location_down_right = [(self.location[0] + 1,self.location[1] + 1)]
         location_down_right_bishop: List[Piece] = []
-        
-        if piece_to_validate_down_right is not None:
-            if self.colorPiece is not piece_to_validate_down_right.colorPiece:
-                location_down_right_bishop = location_down_right_bishop + location_down_right
-        else:
-            while piece_to_validate_down_right is None and self.is_within_board(location_down_right):
-                location_down_right_bishop = list(location_down_right_bishop + location_down_right)
-                location_down_right = [(location_down_right[0][0] + 1, location_down_right[0][1] + 1)]
-                if self.is_within_board(location_down_right) is False:
-                    break
 
-                piece_to_validate_down_right = Board.pieces[location_down_right[0][0]][location_down_right[0][1]]
+        if self.is_within_board(location_down_right):
+            piece_to_validate_down_right = Board.pieces[self.location[0] + 1][self.location[1] + 1]
+            if piece_to_validate_down_right is not None:
+                if self.colorPiece is not piece_to_validate_down_right.colorPiece:
+                    location_down_right_bishop = location_down_right_bishop + location_down_right
+            else:
+                while piece_to_validate_down_right is None and self.is_within_board(location_down_right):
+                    location_down_right_bishop = list(location_down_right_bishop + location_down_right)
+                    location_down_right = [(location_down_right[0][0] + 1, location_down_right[0][1] + 1)]
+                    if self.is_within_board(location_down_right) is False:
+                        break
 
-                if piece_to_validate_down_right is not None:
-                    if self.colorPiece is not piece_to_validate_down_right.colorPiece:
-                        location_down_right_bishop = location_down_right_bishop + location_down_right
-                        break
-                    else:
-                        break
+                    piece_to_validate_down_right = Board.pieces[location_down_right[0][0]][location_down_right[0][1]]
+
+                    if piece_to_validate_down_right is not None:
+                        if self.colorPiece is not piece_to_validate_down_right.colorPiece:
+                            location_down_right_bishop = location_down_right_bishop + location_down_right
+                            break
+                        else:
+                            break
 
 
         valide_move_and_capture_location_bishop = location_up_right_bishop + location_up_left_bishop + location_down_left_bishop + location_down_right_bishop

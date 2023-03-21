@@ -8,7 +8,7 @@ class Player:
 
     def choose_piece_to_play(board, game, players):
         while True:
-            print("Please select the piece you would like to play...")
+            print("Please select the piece you would like to play...\n")
             try:
                 piece_coordinate_x = int(input("Enter the row's variable between 0 and 7:"))
                 piece_coordinate_y = int(input("Enter the colum's variable between 0 and 7:"))
@@ -18,23 +18,34 @@ class Player:
             if board.pieces[piece_coordinate_x][piece_coordinate_y] is not None:
                 if game.currentPlayer is players[0]:
                     if board.pieces[piece_coordinate_x][piece_coordinate_y].colorPiece is ColorPiece.WHITE:
-                        print(f'You have selected {board.pieces[piece_coordinate_x][piece_coordinate_y].typePiece} at location ({piece_coordinate_x}, {piece_coordinate_y})')
-                        break
-                    else:
-                        print("You have selected the wrong color!")
-                        continue
-                else:
-                        if board.pieces[piece_coordinate_x][piece_coordinate_y].colorPiece is ColorPiece.BLACK:
-                            print(f'You have selected {board.pieces[piece_coordinate_x][piece_coordinate_y].typePiece}')
+                        piece_to_validate = board.pieces[piece_coordinate_x][piece_coordinate_y]
+                        if piece_to_validate.movement(board):
+                            print(f'You have selected {piece_to_validate.typePiece} at location ({piece_coordinate_x}, {piece_coordinate_y})')
                             break
                         else:
-                            print("You have selected the wrong color!")
+                            print("\nThis piece has no possible move!\n")
                             continue
+
+                    else:
+                        print("\nYou have selected the wrong color!\n")
+                        continue
+                else:
+                    if board.pieces[piece_coordinate_x][piece_coordinate_y].colorPiece is ColorPiece.BLACK:
+                        piece_to_validate = board.pieces[piece_coordinate_x][piece_coordinate_y]
+                        if piece_to_validate.movement(board):
+                            print(f'You have selected {piece_to_validate.typePiece} at location ({piece_coordinate_x}, {piece_coordinate_y})')
+                            break
+                        else:
+                            print("\nThis piece has no possible move!\n")
+                            continue
+                    else:
+                        print("\nYou have selected the wrong color!\n")
+                        continue
             elif board.pieces[piece_coordinate_x][piece_coordinate_y] is None:
-                print("You have selected an empty square!")
+                print("\nYou have selected an empty square!\n")
                 continue
             else:
-                print("Please select a coordinate within the board")
+                print("\nPlease select a coordinate within the board\n")
                 continue
         return board.pieces[piece_coordinate_x][piece_coordinate_y]
 
@@ -42,7 +53,7 @@ class Player:
 
     
     def choose_move_to_play(piece_to_play, board):
-        print("Please select the location you would like to move your piece")
+        print("\nPlease select the location you would like to move your piece\n")
         print("Find below the available move:")
         print(piece_to_play.movement(board))
 
