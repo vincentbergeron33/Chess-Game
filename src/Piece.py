@@ -92,19 +92,29 @@ class Piece:
         return position_pawn_can_move      
 
     def pawn_valid_captures(self, Board) -> List[int]:
+        positions_pawn_can_capture = []
         if self.colorPiece is ColorPiece.WHITE:
-            pieces_to_validate: List[Piece] = [
-                Board.pieces[self.location[0] - 1][self.location[1] + 1],
-                Board.pieces[self.location[0] - 1][self.location[1] - 1],
-            ]
+            location_one = [(self.location[0] - 1,self.location[1] + 1)]
+            location_two = [(self.location[0] - 1,self.location[1] - 1)]
+            if self.is_within_board(location_one):
+                piece_to_validate_one = Board.pieces[self.location[0] - 1][self.location[1] + 1]
+                if piece_to_validate_one is not None and self.colorPiece is not piece_to_validate_one.colorPiece:
+                    positions_pawn_can_capture = location_one
+            if self.is_within_board(location_two):
+                piece_to_validate_one = Board.pieces[self.location[0] - 1][self.location[1] - 1]
+                if piece_to_validate_one is not None and self.colorPiece is not piece_to_validate_one.colorPiece:
+                    positions_pawn_can_capture = positions_pawn_can_capture + location_two
         else:
-            pieces_to_validate: List[Piece] = [
-                Board.pieces[self.location[0] + 1][self.location[1] + 1],
-                Board.pieces[self.location[0] + 1][self.location[1] - 1],
-            ]
-
-        pieces_pawn_can_capture: List[Piece] = filter(lambda piece: piece is not None and self.colorPiece is not piece.colorPiece, pieces_to_validate)
-        positions_pawn_can_capture: List[int] = list(map(lambda piece: piece.location, pieces_pawn_can_capture))
+            location_one = [(self.location[0] + 1,self.location[1] + 1)]
+            location_two = [(self.location[0] + 1,self.location[1] - 1)]
+            if self.is_within_board(location_one):
+                piece_to_validate_one = Board.pieces[self.location[0] + 1][self.location[1] + 1]
+                if piece_to_validate_one is not None and self.colorPiece is not piece_to_validate_one.colorPiece:
+                    positions_pawn_can_capture = location_one
+            if self.is_within_board(location_two):
+                piece_to_validate_one = Board.pieces[self.location[0] + 1][self.location[1] - 1]
+                if piece_to_validate_one is not None and self.colorPiece is not piece_to_validate_one.colorPiece:
+                    positions_pawn_can_capture = positions_pawn_can_capture + location_two
 
         return positions_pawn_can_capture
 
