@@ -120,97 +120,102 @@ class Piece:
 
     def rook_valid_moves(self, Board) -> List[int]:
 
-        piece_to_validate_up = Board.pieces[self.location[0] - 1][self.location[1]]
         location_up = [(self.location[0] - 1,self.location[1])]
         location_up_rook: List[Piece] = []
 
-        if piece_to_validate_up is not None:
-            if self.colorPiece is not piece_to_validate_up.colorPiece:
-                location_up_rook = location_up_rook + location_up
-        else:
-            while piece_to_validate_up is None and self.is_within_board(location_up):
-                location_up_rook = list(location_up_rook + location_up)
-                location_up = [(location_up[0][0] - 1, location_up[0][1])]
-                
-                if self.is_within_board(location_up) is False:
-                    break
-
-                piece_to_validate_up = Board.pieces[location_up[0][0]][location_up[0][1]]
-
-                if piece_to_validate_up is not None:
-                    if self.colorPiece is not piece_to_validate_up.colorPiece:
-                        location_up_rook = location_up_rook + location_up
-                    else:
+        if self.is_within_board(location_up):
+            piece_to_validate_up = Board.pieces[self.location[0] - 1][self.location[1]]
+            if piece_to_validate_up is not None:
+                if self.colorPiece is not piece_to_validate_up.colorPiece:
+                    location_up_rook = location_up_rook + location_up
+            else:
+                while piece_to_validate_up is None and self.is_within_board(location_up):
+                    location_up_rook = list(location_up_rook + location_up)
+                    location_up = [(location_up[0][0] - 1, location_up[0][1])]
+                    
+                    if self.is_within_board(location_up) is False:
                         break
 
-        piece_to_validate_down = Board.pieces[self.location[0] + 1][self.location[1]]
+                    piece_to_validate_up = Board.pieces[location_up[0][0]][location_up[0][1]]
+
+                    if piece_to_validate_up is not None:
+                        if self.colorPiece is not piece_to_validate_up.colorPiece:
+                            location_up_rook = location_up_rook + location_up
+                        else:
+                            break
+
         location_down = [(self.location[0] + 1,self.location[1])]
         location_down_rook: List[Piece] = []
 
-        if piece_to_validate_down is not None:
-            if self.colorPiece is not piece_to_validate_down.colorPiece:
-                location_down_rook = location_down_rook + location_down
-        else:
-            while piece_to_validate_down is None and self.is_within_board(location_down):
-                location_down_rook = list(location_down_rook + location_down)
-                location_down = [(location_down[0][0] + 1, location_down[0][1])]
-                
-                if self.is_within_board(location_down) is False:
-                    break
-
-                piece_to_validate_down = Board.pieces[location_down[0][0]][location_down[0][1]]
-
-                if piece_to_validate_down is not None:
-                    if self.colorPiece is not piece_to_validate_down.colorPiece:
-                        location_down_rook = location_down_rook + location_down
-                    else:
+        if self.is_within_board(location_down):
+            piece_to_validate_down = Board.pieces[self.location[0] + 1][self.location[1]]
+            if piece_to_validate_down is not None:
+                if self.colorPiece is not piece_to_validate_down.colorPiece:
+                    location_down_rook = location_down_rook + location_down
+            else:
+                while piece_to_validate_down is None and self.is_within_board(location_down):
+                    location_down_rook = list(location_down_rook + location_down)
+                    location_down = [(location_down[0][0] + 1, location_down[0][1])]
+                    
+                    if self.is_within_board(location_down) is False:
                         break
 
-        piece_to_validate_right = Board.pieces[self.location[0]][self.location[1] + 1]
+                    piece_to_validate_down = Board.pieces[location_down[0][0]][location_down[0][1]]
+
+                    if piece_to_validate_down is not None:
+                        if self.colorPiece is not piece_to_validate_down.colorPiece:
+                            location_down_rook = location_down_rook + location_down
+                        else:
+                            break
+
+        
         location_right = [(self.location[0],self.location[1] + 1)]
         location_right_rook: List[Piece] = []
 
-        if piece_to_validate_right is not None:
-            if self.colorPiece is not piece_to_validate_right.colorPiece:
-                location_right_rook = location_right_rook + location_right
-        else:
-            while piece_to_validate_right is None and self.is_within_board(location_right):
-                location_right_rook = list(location_right_rook + location_right)
-                location_right = [(location_right[0][0], location_right[0][1] + 1)]
-                
-                if self.is_within_board(location_right) is False:
-                    break
-
-                piece_to_validate_right = Board.pieces[location_right[0][0]][location_right[0][1]]
-
-                if piece_to_validate_right is not None:
-                    if self.colorPiece is not piece_to_validate_right.colorPiece:
-                        location_right_rook = location_right_rook + location_right
-                    else:
+        if self.is_within_board(location_right):
+            piece_to_validate_right = Board.pieces[self.location[0]][self.location[1] + 1]
+            if piece_to_validate_right is not None:
+                if self.colorPiece is not piece_to_validate_right.colorPiece:
+                    location_right_rook = location_right_rook + location_right
+            else:
+                while piece_to_validate_right is None and self.is_within_board(location_right):
+                    location_right_rook = list(location_right_rook + location_right)
+                    location_right = [(location_right[0][0], location_right[0][1] + 1)]
+                    
+                    if self.is_within_board(location_right) is False:
                         break
 
-        piece_to_validate_left = Board.pieces[self.location[0]][self.location[1] - 1]
+                    piece_to_validate_right = Board.pieces[location_right[0][0]][location_right[0][1]]
+
+                    if piece_to_validate_right is not None:
+                        if self.colorPiece is not piece_to_validate_right.colorPiece:
+                            location_right_rook = location_right_rook + location_right
+                        else:
+                            break
+
         location_left = [(self.location[0],self.location[1] - 1)]
         location_left_rook: List[Piece] = []
         
-        if piece_to_validate_left is not None:
-            if self.colorPiece is not piece_to_validate_left.colorPiece:
-                location_left_rook = location_left_rook + location_left
-        else:
-            while piece_to_validate_left is None and self.is_within_board(location_left):
-                location_left_rook = list(location_left_rook + location_left)
-                location_left = [(location_left[0][0], location_left[0][1] - 1)]
-                
-                if self.is_within_board(location_left) is False:
-                    break
-
-                piece_to_validate_left = Board.pieces[location_left[0][0]][location_left[0][1]]
-
-                if piece_to_validate_left is not None:
-                    if self.colorPiece is not piece_to_validate_left.colorPiece:
-                        location_left_rook = location_left_rook + location_left
-                    else:
+        if self.is_within_board(location_left):
+            piece_to_validate_left = Board.pieces[self.location[0]][self.location[1] - 1]
+            if piece_to_validate_left is not None:
+                if self.colorPiece is not piece_to_validate_left.colorPiece:
+                    location_left_rook = location_left_rook + location_left
+            else:
+                while piece_to_validate_left is None and self.is_within_board(location_left):
+                    location_left_rook = list(location_left_rook + location_left)
+                    location_left = [(location_left[0][0], location_left[0][1] - 1)]
+                    
+                    if self.is_within_board(location_left) is False:
                         break
+
+                    piece_to_validate_left = Board.pieces[location_left[0][0]][location_left[0][1]]
+
+                    if piece_to_validate_left is not None:
+                        if self.colorPiece is not piece_to_validate_left.colorPiece:
+                            location_left_rook = location_left_rook + location_left
+                        else:
+                            break
 
         valide_move_and_capture_location_rook = location_up_rook + location_down_rook + location_right_rook + location_left_rook
 
