@@ -273,28 +273,28 @@ class Piece:
 
 
             
-            location_down_left = [(self.location[0] + 1,self.location[1] - 1)]
-            location_down_left_bishop: List[Piece] = []
+        location_down_left = [(self.location[0] + 1,self.location[1] - 1)]
+        location_down_left_bishop: List[Piece] = []
 
-            if self.is_within_board(location_down_left):
-                piece_to_validate_down_left = Board.pieces[self.location[0] + 1][self.location[1] - 1]
-                if piece_to_validate_down_left is not None:
-                    if self.colorPiece is not piece_to_validate_down_left.colorPiece:
-                        location_down_left_bishop = location_down_left_bishop + location_down_left
-                else:
-                    while piece_to_validate_down_left is None and self.is_within_board(location_down_left):
-                        location_down_left_bishop = list(location_down_left_bishop + location_down_left)
-                        location_down_left = [(location_down_left[0][0] + 1, location_down_left[0][1] - 1)]
-                        if self.is_within_board(location_down_left) is False:
+        if self.is_within_board(location_down_left):
+            piece_to_validate_down_left = Board.pieces[self.location[0] + 1][self.location[1] - 1]
+            if piece_to_validate_down_left is not None:
+                if self.colorPiece is not piece_to_validate_down_left.colorPiece:
+                    location_down_left_bishop = location_down_left_bishop + location_down_left
+            else:
+                while piece_to_validate_down_left is None and self.is_within_board(location_down_left):
+                    location_down_left_bishop = list(location_down_left_bishop + location_down_left)
+                    location_down_left = [(location_down_left[0][0] + 1, location_down_left[0][1] - 1)]
+                    if self.is_within_board(location_down_left) is False:
+                        break
+
+                    piece_to_validate_down_left = Board.pieces[location_down_left[0][0]][location_down_left[0][1]]
+
+                    if piece_to_validate_down_left is not None:
+                        if self.colorPiece is not piece_to_validate_down_left.colorPiece:
+                            location_down_left_bishop = location_down_left_bishop + location_down_left
+                        else:
                             break
-
-                        piece_to_validate_down_left = Board.pieces[location_down_left[0][0]][location_down_left[0][1]]
-
-                        if piece_to_validate_down_left is not None:
-                            if self.colorPiece is not piece_to_validate_down_left.colorPiece:
-                                location_down_left_bishop = location_down_left_bishop + location_down_left
-                            else:
-                                break
 
         location_down_right = [(self.location[0] + 1,self.location[1] + 1)]
         location_down_right_bishop: List[Piece] = []
@@ -362,7 +362,8 @@ class Piece:
                         valide_location_king = valide_location_king + [location]
 
         return valide_location_king
-            
+
+
 @dataclass
 class Board:
     pieces: List[List[Optional[Piece]]]
