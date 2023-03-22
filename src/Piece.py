@@ -68,7 +68,6 @@ class Piece:
                 return []
         else:
             if Board.pieces[self.location[0] + 1][self.location[1]] is None:
-                print((self.location[0], self.location[1]))
                 piece_pawn_can_move_two = [(self.location[0] + 1, self.location[1])]
                 if Board.pieces[self.location[0] + 2][self.location[1]] is None:
                     piece_pawn_can_move_two = piece_pawn_can_move_two + ([
@@ -353,7 +352,6 @@ class Piece:
              ]
         valide_location_king: List[Location] = []
         for location in location_to_validate:
-            print(location)
             if self.is_within_board([location]):
                 if Board.pieces[location[0]][location[1]] is None:
                     valide_location_king = valide_location_king + [location]
@@ -378,8 +376,9 @@ class Piece:
         for rows in board.pieces:
             for piece in rows:
                 if piece is not None:
-                        value = piece.movement(board)
-                        dictionary_moves[piece.location] = value
+                        list_of_list = piece.movement(board)
+                        for location in list_of_list:
+                            dictionary_moves[piece.location] = location
         all_moves = []
         for rows in board.pieces:
             for piece in rows:
@@ -389,6 +388,36 @@ class Piece:
         if white_king_location in all_moves:
             print("King in check!")
             check = True
+            while check is True:
+                piece_to_kill_location = [k for k, v in dictionary_moves.items() if v == white_king_location]
+                print(piece_to_kill_location)
+                if piece_to_kill_location in all_moves:
+                    print("if piece tokill has started...")
+                    king_defenders_locations = [k for k, v in dictionary_moves.items() if v == piece_to_kill_location]
+                    checkmate_check = []
+                    for defender in king_defenders_location:
+                        print("for loop has started...")
+                        piece_defender = board.pieces[defender[0]][defender[1]]
+                        board.pieces[defender[0]][defender[1]] = None
+                        defender.location = (piece_to_kill_location[0], piece_to_kill_location[1])
+                        board.pieces[piece_to_kill_location[0]][piece_to_kill_location[1]] = piece_defender
+                        new_all_moves = []
+                        for rows in board.pieces:
+                            for piece in rows:
+                                if piece is not None:
+                                    new_all_moves = new_all_moves + piece.movement(board)
+                        
+                        if white_king_location in new_all_moves:
+                            checkmate_check = []
+                        else:
+                            checkmate_check = checkmate_check + [(0,0)]
+                    
+                    if checkmate_check:
+                        Print("We now need to check if we can block it!")
+                        check = False
+                    else:
+                        print("White player is in check!")
+                        check = False
         else:
             print("King not in check!")
 
