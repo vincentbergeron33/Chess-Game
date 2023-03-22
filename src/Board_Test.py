@@ -19,15 +19,22 @@ class Boardtest(unittest.TestCase):
                 [Piece(TypePiece.PAWN, ColorPiece.WHITE, (6, 0)), Piece(TypePiece.PAWN, ColorPiece.WHITE, (6, 1)), Piece(TypePiece.PAWN, ColorPiece.WHITE, (6, 2)), Piece(TypePiece.PAWN, ColorPiece.WHITE, (6, 3)), Piece(TypePiece.PAWN, ColorPiece.WHITE, (6, 4)), Piece(TypePiece.PAWN, ColorPiece.WHITE, (6, 5)), Piece(TypePiece.PAWN, ColorPiece.WHITE, (6, 6)), Piece(TypePiece.PAWN, ColorPiece.WHITE, (6, 7))],
                 [Piece(TypePiece.ROOK, ColorPiece.WHITE, (7, 0)), Piece(TypePiece.KNIGHT, ColorPiece.WHITE, (7, 1)), Piece(TypePiece.BISHOP, ColorPiece.WHITE, (7, 2)), Piece(TypePiece.QUEEN, ColorPiece.WHITE, (7, 3)), Piece(TypePiece.KING, ColorPiece.WHITE, (7, 4)), Piece(TypePiece.BISHOP, ColorPiece.WHITE, (7, 5)), Piece(TypePiece.KNIGHT, ColorPiece.WHITE, (7, 6)), Piece(TypePiece.ROOK, ColorPiece.WHITE, (7, 7))]
                 ])
+
+
+
         dictionary_moves = {}
         for rows in board.pieces:
             for piece in rows:
                 if piece is not None:
-                        print(piece)
-                        value = piece.movement(board)
-                        dictionary_moves[piece.location] = value
-
+                        list_of_list = piece.movement(board)
+                        for location in list_of_list:
+                            dictionary_moves[piece.location] = location
         print(dictionary_moves)
+        piece_to_kill_location = [k for k, v in dictionary_moves.items() if v == (5, 4)]
+        print(piece_to_kill_location)
+
+        #Piece.checkmate(board)
+
 
                 
         print(board.pieces[1][0])

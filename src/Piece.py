@@ -363,6 +363,35 @@ class Piece:
 
         return valide_location_king
 
+    def checkmate(board):
+
+        for rows in board.pieces:
+            for piece in rows:
+                if piece is not None:
+                    if piece.typePiece is TypePiece.KING:
+                        if piece.colorPiece is ColorPiece.WHITE:
+                            white_king_location = piece.location
+                        else:
+                            black_king_location = piece.location
+
+        dictionary_moves = {}
+        for rows in board.pieces:
+            for piece in rows:
+                if piece is not None:
+                        value = piece.movement(board)
+                        dictionary_moves[piece.location] = value
+        all_moves = []
+        for rows in board.pieces:
+            for piece in rows:
+                if piece is not None:
+                    all_moves = all_moves + piece.movement(board)
+        
+        if white_king_location in all_moves:
+            print("King in check!")
+            check = True
+        else:
+            print("King not in check!")
+
 
 @dataclass
 class Board:
