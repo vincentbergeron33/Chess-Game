@@ -393,7 +393,7 @@ class Piece:
 
 
 
-    def checkmate_capture(self, board):
+    def checkmate_capture(self, board, currentPlayer,player_black, player_white):
 
         for rows in board.pieces:
             for piece in rows:
@@ -406,19 +406,29 @@ class Piece:
 
         dictionary_moves = piece.dictionary_of_moves(board)
         all_moves = piece.list_all_moves(board)
+
+        if currentPlayer is player_white:
+            king_location = white_king_location
+            print('white king')
+        elif currentPlayer is player_black:
+            king_location = black_king_location
+            print('black king')
+        else:
+            print("function not working")
         
         if white_king_location in all_moves or black_king_location in all_moves:
             print("King in check!")
-            check = False
-            while check is False:
-                piece_to_kill_location = self.corresponding_keys(white_king_location, dictionary_moves)
+            check = True
+            while check is True:
+                piece_to_kill_location = piece.corresponding_keys(white_king_location, dictionary_moves)
                 print(piece_to_kill_location)
                 if len(piece_to_kill_location) > 1:
                     print('Capture Check confirmed!')
+                    break
                 else:
                     if piece_to_kill_location[0] in all_moves:
                         print("if piece to kill has started...")
-                        king_defenders_locations = self.corresponding_keys(piece_to_kill_location, dictionary_moves)
+                        king_defenders_locations = piece.corresponding_keys(piece_to_kill_location, dictionary_moves)
                         checkmate_check = []
                         for defender in king_defenders_locations:
                             board_to_iterate = board
@@ -448,6 +458,8 @@ class Piece:
                             check = False
         else:
             print("King not in check!")
+            check = False
+        return check
 
 
 @dataclass
