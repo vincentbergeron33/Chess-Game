@@ -361,7 +361,39 @@ class Piece:
 
         return valide_location_king
 
-    def checkmate(board):
+    def checkmate(currentPlayer):
+        if checkmate_capture() and checkmate_move():
+            print(f'{currentPlayer} is checkmate!')
+            return True
+        else:
+            print(f'{currentPlayer} is check!')
+
+    def corresponding_keys(self, val, dictionary):
+        keys = []
+        for k, v in dictionary.items():
+            if val in v:
+                keys.append(k)
+        return keys
+
+    def dictionary_of_moves(self, board):
+        dictionary_of_moves = {}
+        for rows in board.pieces:
+            for piece in rows:
+                if piece is not None:
+                    dictionary_of_moves[piece.location] = piece.movement(board)
+        return dictionary_of_moves
+
+    def list_all_moves(self, board):
+        list_all_moves = []
+        for rows in board.pieces:
+            for piece in rows:
+                if piece is not None:
+                    list_all_moves = list_all_moves + piece.movement(board)
+        return list_all_moves
+
+
+
+    def checkmate_capture(self, board):
 
         for rows in board.pieces:
             for piece in rows:
@@ -372,52 +404,48 @@ class Piece:
                         else:
                             black_king_location = piece.location
 
-        dictionary_moves = {}
-        for rows in board.pieces:
-            for piece in rows:
-                if piece is not None:
-                        list_of_list = piece.movement(board)
-                        for location in list_of_list:
-                            dictionary_moves[piece.location] = location
-        all_moves = []
-        for rows in board.pieces:
-            for piece in rows:
-                if piece is not None:
-                    all_moves = all_moves + piece.movement(board)
+        dictionary_moves = piece.dictionary_of_moves(board)
+        all_moves = piece.list_all_moves(board)
         
-        if white_king_location in all_moves:
+        if white_king_location in all_moves or black_king_location in all_moves:
             print("King in check!")
-            check = True
-            while check is True:
-                piece_to_kill_location = [k for k, v in dictionary_moves.items() if v == white_king_location]
+            check = False
+            while check is False:
+                piece_to_kill_location = self.corresponding_keys(white_king_location, dictionary_moves)
                 print(piece_to_kill_location)
-                if piece_to_kill_location in all_moves:
-                    print("if piece tokill has started...")
-                    king_defenders_locations = [k for k, v in dictionary_moves.items() if v == piece_to_kill_location]
-                    checkmate_check = []
-                    for defender in king_defenders_location:
-                        print("for loop has started...")
-                        piece_defender = board.pieces[defender[0]][defender[1]]
-                        board.pieces[defender[0]][defender[1]] = None
-                        defender.location = (piece_to_kill_location[0], piece_to_kill_location[1])
-                        board.pieces[piece_to_kill_location[0]][piece_to_kill_location[1]] = piece_defender
-                        new_all_moves = []
-                        for rows in board.pieces:
-                            for piece in rows:
-                                if piece is not None:
-                                    new_all_moves = new_all_moves + piece.movement(board)
+                if len(piece_to_kill_location) > 1:
+                    print('Capture Check confirmed!')
+                else:
+                    if piece_to_kill_location[0] in all_moves:
+                        print("if piece to kill has started...")
+                        king_defenders_locations = self.corresponding_keys(piece_to_kill_location, dictionary_moves)
+                        checkmate_check = []
+                        for defender in king_defenders_locations:
+                            board_to_iterate = board
+                            print("for loop has started...")
+                            piece_defender = board.pieces[defender[0]][defender[1]]
+                            board_to_iterate.pieces[defender[0]][defender[1]] = None
+                            defender.location = (piece_to_kill_location[0], piece_to_kill_location[1])
+                            board_to_iterate.pieces[piece_to_kill_location[0]][piece_to_kill_location[1]] = piece_defender
+                            new_all_moves = []
+                            for rows in board_to_iterate.pieces:
+                                for piece in rows:
+                                    if piece is not None:
+                                        new_all_moves = piece.movement(board)
+                                        print(new_all_moves)
+                            
+                            if white_king_location in new_all_moves:
+                                checkmate_check = []
+                            else:
+                                checkmate_check = checkmate_check + [(0,0)]
                         
-                        if white_king_location in new_all_moves:
-                            checkmate_check = []
+                        if checkmate_check:
+                            Print("We now need to check if we can block it!")
+                            check = True
+                            break
                         else:
-                            checkmate_check = checkmate_check + [(0,0)]
-                    
-                    if checkmate_check:
-                        Print("We now need to check if we can block it!")
-                        check = False
-                    else:
-                        print("White player is in check!")
-                        check = False
+                            print("White player is in check only!")
+                            check = False
         else:
             print("King not in check!")
 

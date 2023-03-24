@@ -8,9 +8,16 @@ from Piece import ColorPiece
 
 class Boardtest(unittest.TestCase):
 
+    def corresponding_keys(self, val, dictionary):
+        keys = []
+        for k, v in dictionary.items():
+            if val in v:
+                keys.append(k)
+        return keys
+
     def test_pawn_can_capture(self):
         board = Board(pieces = [
-                [Piece(TypePiece.ROOK, ColorPiece.BLACK, (0, 0)), Piece(TypePiece.KNIGHT, ColorPiece.BLACK, (0, 1)), Piece(TypePiece.BISHOP, ColorPiece.BLACK, (0, 2)), Piece(TypePiece.QUEEN, ColorPiece.BLACK, (0, 3)), Piece(TypePiece.KING, ColorPiece.BLACK, (0, 4)), Piece(TypePiece.BISHOP, ColorPiece.BLACK, (0, 5)), Piece(TypePiece.KNIGHT, ColorPiece.BLACK, (0, 6)), Piece(TypePiece.ROOK, ColorPiece.BLACK, (0, 7))],
+                [Piece(TypePiece.ROOK, ColorPiece.BLACK, (0, 0)), Piece(TypePiece.KNIGHT, ColorPiece.WHITE, (0, 1)), Piece(TypePiece.BISHOP, ColorPiece.BLACK, (0, 2)), Piece(TypePiece.QUEEN, ColorPiece.BLACK, (0, 3)), Piece(TypePiece.KING, ColorPiece.BLACK, (0, 4)), Piece(TypePiece.BISHOP, ColorPiece.BLACK, (0, 5)), Piece(TypePiece.KNIGHT, ColorPiece.BLACK, (0, 6)), Piece(TypePiece.ROOK, ColorPiece.BLACK, (0, 7))],
                 [Piece(TypePiece.PAWN, ColorPiece.BLACK, (1, 0)), Piece(TypePiece.PAWN, ColorPiece.BLACK, (1, 1)), Piece(TypePiece.PAWN, ColorPiece.BLACK, (1, 2)), Piece(TypePiece.PAWN, ColorPiece.BLACK, (1, 3)), Piece(TypePiece.PAWN, ColorPiece.BLACK, (1, 4)), Piece(TypePiece.PAWN, ColorPiece.BLACK, (1, 5)), Piece(TypePiece.PAWN, ColorPiece.BLACK, (1, 6)), Piece(TypePiece.PAWN, ColorPiece.BLACK, (1, 7))],
                 [ Piece(TypePiece.KING, ColorPiece.WHITE, (2, 0)), None, Piece(TypePiece.PAWN, ColorPiece.WHITE, (4, 2)), None, None, None, None, None],
                 [None, None, None, None, None, None, None, None],
@@ -33,21 +40,19 @@ class Boardtest(unittest.TestCase):
         for rows in board.pieces:
             for piece in rows:
                 if piece is not None:
-                        list_of_list = piece.movement(board)
-                        for location in list_of_list:
-                            dictionary_moves[piece.location] = location
+                    dictionary_moves[piece.location] = piece.movement(board)
         all_moves = []
         for rows in board.pieces:
             for piece in rows:
                 if piece is not None:
                     all_moves = all_moves + piece.movement(board)
-        print(white_king_location)
-        print(dictionary_moves)
         
-        piece_to_kill_location = [k for k, v in dictionary_moves.items() if v == white_king_location]
-        print(piece_to_kill_location)
 
-        #Piece.checkmate(board)
+        #piece_to_kill_location = self.corresponding_keys(white_king_location, dictionary_moves)
+        #print(piece_to_kill_location)
+        Piece.checkmate_capture(self, board)
+
+
 
 
                 
