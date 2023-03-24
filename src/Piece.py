@@ -361,14 +361,41 @@ class Piece:
 
         return valide_location_king
 
-    def checkmate(currentPlayer):
-        if checkmate_capture() and checkmate_move():
+    def checkmate(board, currentPlayer,player_white, player_black):
+
+        for rows in board.pieces:
+            for piece in rows:
+                if piece is not None:
+                    if piece.typePiece is TypePiece.KING:
+                        if piece.colorPiece is ColorPiece.WHITE:
+                            white_king_location = piece.location
+                        else:
+                            black_king_location = piece.location
+
+        dictionary_moves = piece.dictionary_of_moves(board)
+        all_moves = piece.list_all_moves(board)
+
+        if currentPlayer is player_white:
+            king_location = white_king_location
+            print('white king')
+        elif currentPlayer is player_black:
+            king_location = black_king_location
+            print('black king')
+        else:
+            print("function not working")
+
+
+        if Piece.checkmate_capture(board, king_location, dictionary_moves, all_moves)\
+            and Piece.checkmate_move(board, king_location, dictionary_moves, all_moves)\
+            and Piece.checkmate(board, king_location, dictionary_moves, all_moves):
             print(f'{currentPlayer} is checkmate!')
             return True
-        else:
+        elif Piece.checkmate_capture(board, king_location, dictionary_moves, all_moves)\
+            or Piece.checkmate_move(board, king_location, dictionary_moves, all_moves)\
+            or Piece.checkmate(board, king_location, dictionary_moves, all_moves):
             print(f'{currentPlayer} is check!')
 
-    def corresponding_keys(self, val, dictionary):
+    def corresponding_keys(val, dictionary):
         keys = []
         for k, v in dictionary.items():
             if val in v:
@@ -391,73 +418,90 @@ class Piece:
                     list_all_moves = list_all_moves + piece.movement(board)
         return list_all_moves
 
-
-
-    def checkmate_capture(self, board, currentPlayer,player_black, player_white):
-
-        for rows in board.pieces:
-            for piece in rows:
-                if piece is not None:
-                    if piece.typePiece is TypePiece.KING:
-                        if piece.colorPiece is ColorPiece.WHITE:
-                            white_king_location = piece.location
-                        else:
-                            black_king_location = piece.location
-
-        dictionary_moves = piece.dictionary_of_moves(board)
-        all_moves = piece.list_all_moves(board)
-
-        if currentPlayer is player_white:
-            king_location = white_king_location
-            print('white king')
-        elif currentPlayer is player_black:
-            king_location = black_king_location
-            print('black king')
-        else:
-            print("function not working")
-        
-        if white_king_location in all_moves or black_king_location in all_moves:
-            print("King in check!")
-            check = True
-            while check is True:
-                piece_to_kill_location = piece.corresponding_keys(white_king_location, dictionary_moves)
-                print(piece_to_kill_location)
-                if len(piece_to_kill_location) > 1:
-                    print('Capture Check confirmed!')
+    def checkmate_check(board, king_location, dictionary_moves, all_moves):
+        if king_location in all_moves:
+            king_moves = dictionary_moves[king_location]
+            for move in king_moves:
+                if move not in all_moves:
+                    check = False
                     break
                 else:
-                    if piece_to_kill_location[0] in all_moves:
-                        print("if piece to kill has started...")
-                        king_defenders_locations = piece.corresponding_keys(piece_to_kill_location, dictionary_moves)
-                        checkmate_check = []
-                        for defender in king_defenders_locations:
-                            board_to_iterate = board
-                            print("for loop has started...")
-                            piece_defender = board.pieces[defender[0]][defender[1]]
-                            board_to_iterate.pieces[defender[0]][defender[1]] = None
-                            defender.location = (piece_to_kill_location[0], piece_to_kill_location[1])
-                            board_to_iterate.pieces[piece_to_kill_location[0]][piece_to_kill_location[1]] = piece_defender
-                            new_all_moves = []
+                    check = True
+            return check
+
+    def checkmate_move(board, king_location, dictionary_moves, all_moves):
+        if king_location in all_moves:
+            check = True
+            while check is True:
+                checkmate_check = []
+                for move in all_moves:
+                    pieces_to_check_location = Piece.corresponding_keys(move, dictionary_moves)
+                    for piece_location in pieces_to_check_location:
+                        board_to_iterate = board
+                        if board.pieces[piece_location[0]][piece_location[1]].colorPiece is board.pieces[king_location[0]][king_location[1]].colorPiece:
+                            piece_defender = board.pieces[piece_location[0]][piece_location[1]]
+                            board_to_iterate.pieces[piece_location[0]][piece_location[1]] = None
+                            piece_defender.location = (move[0], move[1])
+                            board_to_iterate.pieces[move[0]][move[1]] = piece_defender
                             for rows in board_to_iterate.pieces:
                                 for piece in rows:
                                     if piece is not None:
                                         new_all_moves = piece.movement(board)
                                         print(new_all_moves)
                             
-                            if white_king_location in new_all_moves:
+                            if king_location in new_all_moves:
+                                checkmate_check = []
+                            else:
+                                checkmate_check = checkmate_check + [(0,0)]
+
+                if checkmate_check:
+                    check = True
+                    break
+                else:
+                    check = False
+        else:
+            check = False
+        
+        return check
+
+
+    def checkmate_capture(board, king_location, dictionary_moves, all_moves):
+        
+        if king_location in all_moves:
+            check = True
+            while check is True:
+                piece_to_kill_location = Piece.corresponding_keys(king_location, dictionary_moves)
+                print(piece_to_kill_location)
+                if len(piece_to_kill_location) > 1:
+                    break
+                else:
+                    if piece_to_kill_location[0] in all_moves:
+                        king_defenders_locations = Piece.corresponding_keys(piece_to_kill_location, dictionary_moves)
+                        checkmate_check = []
+                        for defender in king_defenders_locations:
+                            board_to_iterate = board
+                            piece_defender = board.pieces[defender[0]][defender[1]]
+                            board_to_iterate.pieces[defender[0]][defender[1]] = None
+                            piece_defender.location = (piece_to_kill_location[0], piece_to_kill_location[1])
+                            board_to_iterate.pieces[piece_to_kill_location[0]][piece_to_kill_location[1]] = piece_defender
+                            new_all_moves = []
+                            for rows in board_to_iterate.pieces:
+                                for piece in rows:
+                                    if piece is not None:
+                                        new_all_moves = new_all_moves + piece.movement(board_to_iterate)
+                                        print(new_all_moves)
+                            
+                            if king_location in new_all_moves:
                                 checkmate_check = []
                             else:
                                 checkmate_check = checkmate_check + [(0,0)]
                         
                         if checkmate_check:
-                            Print("We now need to check if we can block it!")
                             check = True
                             break
                         else:
-                            print("White player is in check only!")
                             check = False
         else:
-            print("King not in check!")
             check = False
         return check
 

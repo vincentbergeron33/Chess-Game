@@ -24,7 +24,7 @@ class Game():
             board.pieces[piece_to_play.location[0]][piece_to_play.location[1]] = None
             piece_to_play.location = (move_to_play[0], move_to_play[1])
             board.pieces[move_to_play[0]][move_to_play[1]] = piece_to_play
-            Piece.checkmate_capture(self, board, game.currentPlayer, game.player_black, game.player_white)
+            Piece.checkmate(board, game.currentPlayer, players[0], players[1])
 
     def set_player_turn(self):
         if game.currentPlayer is players[0]:
