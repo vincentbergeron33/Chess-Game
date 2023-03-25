@@ -385,12 +385,13 @@ class Piece:
             print("function not working")
 
 
-        if Piece.checkmate_capture(board, king_location, dictionary_moves, all_moves)\
+        has_checkmate_captured = Piece.checkmate_capture(board, king_location, dictionary_moves, all_moves)
+        if has_checkmate_captured\
             and Piece.checkmate_move(board, king_location, dictionary_moves, all_moves)\
             and Piece.checkmate(board, king_location, dictionary_moves, all_moves):
             print(f'{currentPlayer} is checkmate!')
             return True
-        elif Piece.checkmate_capture(board, king_location, dictionary_moves, all_moves)\
+        elif has_checkmate_captured\
             or Piece.checkmate_move(board, king_location, dictionary_moves, all_moves)\
             or Piece.checkmate(board, king_location, dictionary_moves, all_moves):
             print(f'{currentPlayer} is check!')
@@ -436,23 +437,30 @@ class Piece:
                 checkmate_check = []
                 for move in all_moves:
                     pieces_to_check_location = Piece.corresponding_keys(move, dictionary_moves)
-                    for piece_location in pieces_to_check_location:
+                    for [piece_row, piece_col] in pieces_to_check_location:
                         board_to_iterate = board
-                        if board.pieces[piece_location[0]][piece_location[1]].colorPiece is board.pieces[king_location[0]][king_location[1]].colorPiece:
-                            piece_defender = board.pieces[piece_location[0]][piece_location[1]]
-                            board_to_iterate.pieces[piece_location[0]][piece_location[1]] = None
-                            piece_defender.location = (move[0], move[1])
-                            board_to_iterate.pieces[move[0]][move[1]] = piece_defender
-                            for rows in board_to_iterate.pieces:
-                                for piece in rows:
-                                    if piece is not None:
-                                        new_all_moves = piece.movement(board)
-                                        print(new_all_moves)
-                            
-                            if king_location in new_all_moves:
-                                checkmate_check = []
-                            else:
-                                checkmate_check = checkmate_check + [(0,0)]
+                        print(board)
+                        print([piece_row, piece_col])
+                        print(board.pieces[piece_row][piece_col])
+                        print(king_location)
+                        print(king_location[0])
+                        print(board.pieces[2][1])
+                        print(board.pieces[king_location[0]][king_location[1]])
+                        if board.pieces[piece_row][piece_col].typePiece is not board.pieces[king_location[0]][king_location[1]].typePiece:
+                            if board.pieces[piece_row][piece_col].colorPiece is board.pieces[king_location[0]][king_location[1]].colorPiece:
+                                piece_defender = board_to_iterate.pieces[piece_row][piece_col]
+                                board_to_iterate.pieces[piece_row][piece_col] = None
+                                piece_defender.location = (move[0], move[1])
+                                board_to_iterate.pieces[move[0]][move[1]] = piece_defender
+                                for rows in board_to_iterate.pieces:
+                                    for piece in rows:
+                                        if piece is not None:
+                                            new_all_moves = piece.movement(board_to_iterate)
+                                
+                                if king_location in new_all_moves:
+                                    checkmate_check = []
+                                else:
+                                    checkmate_check = checkmate_check + [(0,0)]
 
                 if checkmate_check:
                     check = True
@@ -469,9 +477,10 @@ class Piece:
         
         if king_location in all_moves:
             check = True
+            print("board before capture")
+            print(board)
             while check is True:
                 piece_to_kill_location = Piece.corresponding_keys(king_location, dictionary_moves)
-                print(piece_to_kill_location)
                 if len(piece_to_kill_location) > 1:
                     break
                 else:
@@ -489,7 +498,6 @@ class Piece:
                                 for piece in rows:
                                     if piece is not None:
                                         new_all_moves = new_all_moves + piece.movement(board_to_iterate)
-                                        print(new_all_moves)
                             
                             if king_location in new_all_moves:
                                 checkmate_check = []
@@ -503,6 +511,8 @@ class Piece:
                             check = False
         else:
             check = False
+        print("board at the end of capure")
+        print(board)
         return check
 
 
