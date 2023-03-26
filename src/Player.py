@@ -3,6 +3,7 @@ from Piece import Piece
 from Piece import ColorPiece
 from Piece import TypePiece
 
+
 @dataclass
 class Player:
     username: str
@@ -56,9 +57,6 @@ class Player:
                 continue
         return board.pieces[piece_coordinate_x][piece_coordinate_y]
 
-
-
-    
     def choose_move_to_play(piece_to_play, board):
 
         """
@@ -83,7 +81,6 @@ class Player:
                 print("Please select a valid move")
                 continue
         return new_position
-
 
     def is_king_still_in_check(self, board, currentPlayer, player_white, player_black, move_to_piece, piece_to_play, move_to_play, play_from_location):
 
@@ -122,4 +119,3 @@ class Player:
                     continue
                 else:
                     break
-            

@@ -24,11 +24,10 @@ class Piece:
     typePiece: TypePiece
     colorPiece: ColorPiece
     location: (int, int)
-    
-    #startingLocation doesnt
+
     def __post_init__(self):
         """
-        Pput the starting location at the location after the 
+        Pput the starting location at the location after the
         init function are run
         """
         self.startingLocation = self.location
@@ -109,8 +108,7 @@ class Piece:
         else:
             if Board.pieces[self.location[0] + 1][self.location[1]] is None:
                 position_pawn_can_move = [(self.location[0] + 1, self.location[1])]
-
-        return position_pawn_can_move      
+        return position_pawn_can_move
 
     def pawn_valid_captures(self, Board) -> List[int]:
         """
@@ -118,8 +116,8 @@ class Piece:
         """
         positions_pawn_can_capture = []
         if self.colorPiece is ColorPiece.WHITE:
-            location_one = [(self.location[0] - 1,self.location[1] + 1)]
-            location_two = [(self.location[0] - 1,self.location[1] - 1)]
+            location_one = [(self.location[0] - 1, self.location[1] + 1)]
+            location_two = [(self.location[0] - 1, self.location[1] - 1)]
             if self.is_within_board(location_one):
                 piece_to_validate_one = Board.pieces[self.location[0] - 1][self.location[1] + 1]
                 if piece_to_validate_one is not None and self.colorPiece is not piece_to_validate_one.colorPiece:
@@ -129,8 +127,8 @@ class Piece:
                 if piece_to_validate_one is not None and self.colorPiece is not piece_to_validate_one.colorPiece:
                     positions_pawn_can_capture = positions_pawn_can_capture + location_two
         else:
-            location_one = [(self.location[0] + 1,self.location[1] + 1)]
-            location_two = [(self.location[0] + 1,self.location[1] - 1)]
+            location_one = [(self.location[0] + 1, self.location[1] + 1)]
+            location_two = [(self.location[0] + 1, self.location[1] - 1)]
             if self.is_within_board(location_one):
                 piece_to_validate_one = Board.pieces[self.location[0] + 1][self.location[1] + 1]
                 if piece_to_validate_one is not None and self.colorPiece is not piece_to_validate_one.colorPiece:
@@ -148,7 +146,7 @@ class Piece:
         Return valid moves and capture location of a ROOK
         """
 
-        location_up = [(self.location[0] - 1,self.location[1])]
+        location_up = [(self.location[0] - 1, self.location[1])]
         location_up_rook: List[Piece] = []
 
         if self.is_within_board(location_up):
@@ -160,7 +158,6 @@ class Piece:
                 while piece_to_validate_up is None and self.is_within_board(location_up):
                     location_up_rook = list(location_up_rook + location_up)
                     location_up = [(location_up[0][0] - 1, location_up[0][1])]
-                    
                     if self.is_within_board(location_up) is False:
                         break
 
@@ -172,7 +169,7 @@ class Piece:
                         else:
                             break
 
-        location_down = [(self.location[0] + 1,self.location[1])]
+        location_down = [(self.location[0] + 1, self.location[1])]
         location_down_rook: List[Piece] = []
 
         if self.is_within_board(location_down):
@@ -184,7 +181,6 @@ class Piece:
                 while piece_to_validate_down is None and self.is_within_board(location_down):
                     location_down_rook = list(location_down_rook + location_down)
                     location_down = [(location_down[0][0] + 1, location_down[0][1])]
-                    
                     if self.is_within_board(location_down) is False:
                         break
 
@@ -196,8 +192,7 @@ class Piece:
                         else:
                             break
 
-        
-        location_right = [(self.location[0],self.location[1] + 1)]
+        location_right = [(self.location[0], self.location[1] + 1)]
         location_right_rook: List[Piece] = []
 
         if self.is_within_board(location_right):
@@ -209,7 +204,6 @@ class Piece:
                 while piece_to_validate_right is None and self.is_within_board(location_right):
                     location_right_rook = list(location_right_rook + location_right)
                     location_right = [(location_right[0][0], location_right[0][1] + 1)]
-                    
                     if self.is_within_board(location_right) is False:
                         break
 
@@ -221,9 +215,9 @@ class Piece:
                         else:
                             break
 
-        location_left = [(self.location[0],self.location[1] - 1)]
+        location_left = [(self.location[0], self.location[1] - 1)]
         location_left_rook: List[Piece] = []
-        
+
         if self.is_within_board(location_left):
             piece_to_validate_left = Board.pieces[self.location[0]][self.location[1] - 1]
             if piece_to_validate_left is not None:
@@ -233,7 +227,6 @@ class Piece:
                 while piece_to_validate_left is None and self.is_within_board(location_left):
                     location_left_rook = list(location_left_rook + location_left)
                     location_left = [(location_left[0][0], location_left[0][1] - 1)]
-                    
                     if self.is_within_board(location_left) is False:
                         break
 
@@ -249,14 +242,13 @@ class Piece:
 
         return valide_move_and_capture_location_rook
 
-
     def bishop_valid_moves(self, Board,) -> List[int]:
 
         """
         Return valid moves and capture location of a BISHOP
         """
 
-        location_up_right = [(self.location[0] - 1,self.location[1] + 1)]
+        location_up_right = [(self.location[0] - 1, self.location[1] + 1)]
         location_up_right_bishop: List[Piece] = []
 
         if self.is_within_board(location_up_right):
@@ -279,7 +271,7 @@ class Piece:
                         else:
                             break
 
-        location_up_left = [(self.location[0] - 1,self.location[1] - 1)]
+        location_up_left = [(self.location[0] - 1, self.location[1] - 1)]
         location_up_left_bishop: List[Piece] = []
 
         if self.is_within_board(location_up_left):
@@ -302,9 +294,7 @@ class Piece:
                         else:
                             break
 
-
-            
-        location_down_left = [(self.location[0] + 1,self.location[1] - 1)]
+        location_down_left = [(self.location[0] + 1, self.location[1] - 1)]
         location_down_left_bishop: List[Piece] = []
 
         if self.is_within_board(location_down_left):
@@ -327,7 +317,7 @@ class Piece:
                         else:
                             break
 
-        location_down_right = [(self.location[0] + 1,self.location[1] + 1)]
+        location_down_right = [(self.location[0] + 1, self.location[1] + 1)]
         location_down_right_bishop: List[Piece] = []
 
         if self.is_within_board(location_down_right):
@@ -351,12 +341,9 @@ class Piece:
                         else:
                             break
 
-
         valide_move_and_capture_location_bishop = location_up_right_bishop + location_up_left_bishop + location_down_left_bishop + location_down_right_bishop
-  
 
         return valide_move_and_capture_location_bishop
-
 
     def knight_valid_moves(self, Board) -> List[int]:
 
@@ -426,8 +413,6 @@ class Piece:
         elif currentPlayer is player_black:
             king_location = black_king_location
 
-
-        #has_checkmate_captured = Piece.checkmate_capture(board, king_location, dictionary_moves, all_moves)
         if Piece.checkmate_capture(board, king_location, dictionary_moves, all_moves)\
             and Piece.checkmate_move(board, king_location, dictionary_moves, all_moves)\
             and Piece.checkmate_king_move(board, king_location, dictionary_moves, all_moves):
@@ -497,7 +482,7 @@ class Piece:
                         for piece in rows:
                             if piece is not None:
                                 new_all_moves = new_all_moves + piece.movement(board)
-                    
+
                     if (move[0], move[1]) in new_all_moves:
                         checkmate_check = checkmate_check + []
                     else:
@@ -519,7 +504,7 @@ class Piece:
         if king_location in all_moves:
             check = True
             while check is True:
-                checkmate_check =[]
+                checkmate_check = []
                 for move in all_moves:
                     pieces_to_check_location = Piece.corresponding_keys(move, dictionary_moves)
                     for [piece_row, piece_col] in pieces_to_check_location:
@@ -534,7 +519,7 @@ class Piece:
                                     for piece in rows:
                                         if piece is not None:
                                             new_all_moves = new_all_moves + piece.movement(board)
-                                
+
                                 if king_location in new_all_moves:
                                     checkmate_check = checkmate_check + []
                                 else:
@@ -549,9 +534,8 @@ class Piece:
                     break
         else:
             check = False
-        
-        return check
 
+        return check
 
     def checkmate_capture(board, king_location, dictionary_moves, all_moves) -> bool:
 
@@ -580,16 +564,15 @@ class Piece:
                                 for piece in rows:
                                     if piece is not None:
                                         new_all_moves = new_all_moves + piece.movement(board_to_iterate)
-                            
+
                             if king_location in new_all_moves:
                                 checkmate_check = []
                             else:
-                                checkmate_check = checkmate_check + [(0,0)]
+                                checkmate_check = checkmate_check + [(0, 0)]
                             piece_defender.location = (defender[0], defender[1])
                             board.pieces[defender[0]][defender[1]] = piece_defender
                             board.pieces[piece_to_kill_location[0]][piece_to_kill_location[1]] = piece_to_kill
-                            
-                        
+
                         if checkmate_check:
                             check = False
                         else:
@@ -601,7 +584,7 @@ class Piece:
         else:
             check = False
         return check
-    
+
 
 @dataclass
 class Board:
@@ -651,19 +634,14 @@ class Board:
 
         for i in range(0, len(self.pieces)):
             print(f'\n{i}', end='|')
-            for j in range(0, len(self.pieces[i])):     
+            for j in range(0, len(self.pieces[i])):
                 piece = board.pieces[i][j]
                 if piece is not None:
                     self.print_pieces_on_board(piece.typePiece, piece.colorPiece)
                 else:
                     print('  ', end='|')
-    
+
         print('\n  ', end=' ')
         for i in range(8):
             print(i, end='  ')
         print('\n')
-
-        
-
-
-
