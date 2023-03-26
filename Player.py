@@ -24,7 +24,7 @@ class Player:
                 continue
 
             if board.pieces[piece_coordinate_x][piece_coordinate_y] is not None:
-                if current_Player is player_white:
+                if current_player is player_white:
                     if board.pieces[piece_coordinate_x][piece_coordinate_y].colorPiece is ColorPiece.WHITE:
                         piece_to_validate = board.pieces[piece_coordinate_x][piece_coordinate_y]
                         if piece_to_validate.movement(board):

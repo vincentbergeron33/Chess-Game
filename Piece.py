@@ -410,7 +410,7 @@ class Piece:
 
         if current_player is player_white:
             king_location = white_king_location
-        elif current_ player is player_black:
+        elif current_player is player_black:
             king_location = black_king_location
 
         if Piece.checkmate_capture(board, king_location, dictionary_moves, all_moves)\
