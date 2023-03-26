@@ -27,12 +27,23 @@ class Piece:
     
     #startingLocation doesnt
     def __post_init__(self):
+        """
+        Pput the starting location at the location after the 
+        init function are run
+        """
         self.startingLocation = self.location
 
     def is_at_starting_location(self) -> bool:
+        """
+        Check if the piece is at its starting position
+        """
         return self.startingLocation == self.location
 
     def movement(self, Board) -> List[int]:
+        """
+        Return a list of all the moves possible of
+        the pieces on the board
+        """
         if self.typePiece is TypePiece.PAWN:
             valid_move_pawn = self.pawn_valid_captures(Board) + self.pawn_valid_moves(Board)
             valid_move_pawn = list(set(valid_move_pawn))
@@ -51,12 +62,18 @@ class Piece:
             raise NotImplementedError()
 
     def is_within_board(self, location) -> bool:
+        """
+        Check if the piece is at its starting position
+        """
         if 0 <= location[0][0] <= 7 and 0 <= location[0][1] <= 7:
             return True
         else:
             return False
 
-    def pawn_can_move_two(self, Board):
+    def pawn_can_move_two(self, Board) -> List[int]:
+        """
+        Return the available move when a PAWN is on its starting location
+        """
         piece_pawn_can_move_two = []
         if self.colorPiece is ColorPiece.WHITE:
             if Board.pieces[self.location[0] - 1][self.location[1]] is None:
@@ -80,6 +97,9 @@ class Piece:
         return piece_pawn_can_move_two
 
     def pawn_valid_moves(self, Board) -> List[int]:
+        """
+        Return valid move of a PAWN
+        """
         position_pawn_can_move = []
         if self.is_at_starting_location():
             position_pawn_can_move = self.pawn_can_move_two(Board)
@@ -93,6 +113,9 @@ class Piece:
         return position_pawn_can_move      
 
     def pawn_valid_captures(self, Board) -> List[int]:
+        """
+        Return valid capture location of a PAWN
+        """
         positions_pawn_can_capture = []
         if self.colorPiece is ColorPiece.WHITE:
             location_one = [(self.location[0] - 1,self.location[1] + 1)]
@@ -120,6 +143,10 @@ class Piece:
         return positions_pawn_can_capture
 
     def rook_valid_moves(self, Board) -> List[int]:
+
+        """
+        Return valid moves and capture location of a ROOK
+        """
 
         location_up = [(self.location[0] - 1,self.location[1])]
         location_up_rook: List[Piece] = []
@@ -225,7 +252,10 @@ class Piece:
 
     def bishop_valid_moves(self, Board,) -> List[int]:
 
-       
+        """
+        Return valid moves and capture location of a BISHOP
+        """
+
         location_up_right = [(self.location[0] - 1,self.location[1] + 1)]
         location_up_right_bishop: List[Piece] = []
 
@@ -329,6 +359,11 @@ class Piece:
 
 
     def knight_valid_moves(self, Board) -> List[int]:
+
+        """
+        Return valid moves and capture location of a KNIGHT
+        """
+
         x = self.location[0]
         y = self.location[1]
         location_to_validate = list(product([x - 1, x + 1], [y - 2, x - 2])) + list(product([x - 2, x + 2], [y - 1, y + 1]))
@@ -346,6 +381,11 @@ class Piece:
         return valide_location_knight
 
     def king_valid_moves(self, Board) -> List[int]:
+
+        """
+        Return valid moves and capture location of a KING
+        """
+
         x = self.location[0]
         y = self.location[1]
         location_to_validate = [
@@ -363,7 +403,11 @@ class Piece:
 
         return valide_location_king
 
-    def checkmate(board, currentPlayer, player_white, player_black):
+    def checkmate(board, currentPlayer, player_white, player_black) -> bool:
+
+        """
+        Check if the current player is on check or is checkmate
+        """
 
         for rows in board.pieces:
             for piece in rows:
@@ -379,25 +423,28 @@ class Piece:
 
         if currentPlayer is player_white:
             king_location = white_king_location
-            print('white king')
         elif currentPlayer is player_black:
             king_location = black_king_location
-            print('black king')
-        else:
-            print("function not working")
 
 
         #has_checkmate_captured = Piece.checkmate_capture(board, king_location, dictionary_moves, all_moves)
         if Piece.checkmate_capture(board, king_location, dictionary_moves, all_moves)\
-            and Piece.checkmate_move(board, king_location, dictionary_moves, all_moves):
+            and Piece.checkmate_move(board, king_location, dictionary_moves, all_moves)\
+            and Piece.checkmate_king_move(board, king_location, dictionary_moves, all_moves):
             print(f'{currentPlayer} is checkmate!')
             return True
         elif Piece.checkmate_capture(board, king_location, dictionary_moves, all_moves)\
-            or Piece.checkmate_move(board, king_location, dictionary_moves, all_moves):
+            or Piece.checkmate_move(board, king_location, dictionary_moves, all_moves)\
+            or Piece.checkmate_king_move(board, king_location, dictionary_moves, all_moves):
             print(f'{currentPlayer} is check!')
             return False
 
     def corresponding_keys(val, dictionary):
+
+        """
+        Return key of a value in a dictionary
+        """
+
         keys = []
         for k, v in dictionary.items():
             if val in v:
@@ -405,6 +452,11 @@ class Piece:
         return keys
 
     def dictionary_of_moves(self, board):
+
+        """
+        Return a dictionary of pieces and their moves
+        """
+
         dictionary_of_moves = {}
         for rows in board.pieces:
             for piece in rows:
@@ -413,6 +465,11 @@ class Piece:
         return dictionary_of_moves
 
     def list_all_moves(self, board):
+
+        """
+        Return a list of all the valid moves of the pieces
+        """
+
         list_all_moves = []
         for rows in board.pieces:
             for piece in rows:
@@ -420,8 +477,45 @@ class Piece:
                     list_all_moves = list_all_moves + piece.movement(board)
         return list_all_moves
 
+    def checkmate_king_move(board, king_location, dictionary_moves, all_moves):
 
-    def checkmate_move(board, king_location, dictionary_moves, all_moves):
+        """
+        Check if the current player can move his king to not be check
+        """
+
+        if king_location in all_moves:
+            king_moves = dictionary_moves[king_location]
+            checkmate_check = []
+            king_piece = board.pieces[king_location[0]][king_location[1]]
+            for move in king_moves:
+                if board.pieces[move[0]][move[1]] is None:
+                    board.pieces[king_location[0]][king_location[1]] = None
+                    king_piece.location = (move[0], move[1])
+                    board.pieces[move[0]][move[1]] = king_piece
+                    new_all_moves = []
+                    for rows in board.pieces:
+                        for piece in rows:
+                            if piece is not None:
+                                new_all_moves = new_all_moves + piece.movement(board)
+                    
+                    if (move[0], move[1]) in new_all_moves:
+                        checkmate_check = checkmate_check + []
+                    else:
+                        checkmate_check = checkmate_check + [(0, 0)]
+                    board.pieces[move[0]][move[1]] = None
+                    king_piece.location = (king_location[0], king_location[1])
+                    board.pieces[king_location[0]][king_location[1]] = king_piece
+
+            if checkmate_check:
+                check = False
+            else:
+                check = True
+            return check
+
+    def checkmate_move(board, king_location, dictionary_moves, all_moves) -> bool:
+        """
+        Check if the current player can block the check using another piece
+        """
         if king_location in all_moves:
             check = True
             while check is True:
@@ -448,13 +542,10 @@ class Piece:
                                 board.pieces[move[0]][move[1]] = None
                                 piece_defender.location = (piece_row, piece_col)
                                 board.pieces[piece_row][piece_col] = piece_defender
-                print(checkmate_check)
                 if checkmate_check:
                     check = False
-                    print("not checkmate for move")
                 else:
                     check = True
-                    print("checkmate for move")
                     break
         else:
             check = False
@@ -462,25 +553,24 @@ class Piece:
         return check
 
 
-    def checkmate_capture(board, king_location, dictionary_moves, all_moves):
-        print("started checkmate capture")
+    def checkmate_capture(board, king_location, dictionary_moves, all_moves) -> bool:
+
+        """
+        Check if the current player can capture to not be in check
+        """
+
         if king_location in all_moves:
             check = True
-            print("king in moves")
             while check is True:
                 piece_to_kill_location = Piece.corresponding_keys(king_location, dictionary_moves)
-                print(piece_to_kill_location)
                 if len(piece_to_kill_location) > 1:
-                    print("is it breaking?")
                     break
                 else:
-                    if piece_to_kill_location[0] in all_moves:
-                        print("piece to kill function")
+                    if piece_to_kill_location in all_moves:
                         king_defenders_locations = Piece.corresponding_keys(piece_to_kill_location, dictionary_moves)
                         checkmate_check = []
                         for defender in king_defenders_locations:
                             piece_to_kill = board.pieces[piece_to_kill_location[0]][piece_to_kill_location[1]]
-                            print(piece_to_kill)
                             piece_defender = board.pieces[defender[0]][defender[1]]
                             board.pieces[defender[0]][defender[1]] = None
                             piece_defender.location = (piece_to_kill_location[0], piece_to_kill_location[1])
@@ -498,29 +588,30 @@ class Piece:
                             piece_defender.location = (defender[0], defender[1])
                             board.pieces[defender[0]][defender[1]] = piece_defender
                             board.pieces[piece_to_kill_location[0]][piece_to_kill_location[1]] = piece_to_kill
-                            print(board.pieces[piece_to_kill_location[0]][piece_to_kill_location[1]])
-                            print(piece_to_kill)
-                            
-
                             
                         
                         if checkmate_check:
                             check = False
-                            print("Not checkmate for capture")
                         else:
                             check = True
-                            print("Checkmate for capture")
                             break
+                    else:
+                        check = True
+                        break
         else:
             check = False
         return check
-
+    
 
 @dataclass
 class Board:
     pieces: List[List[Optional[Piece]]]
 
-    def print_pieces_on_board(self, typePiece, colorPiece):
+    def print_pieces_on_board(self, typePiece, colorPiece) -> str:
+
+        """
+        Print the right letters for the pieces type and color
+        """
         if typePiece is typePiece.PAWN:
             if colorPiece is colorPiece.WHITE:
                 print('WP', end='|')
@@ -553,6 +644,11 @@ class Board:
                 print('BK', end='|')
 
     def printboard(self, board):
+
+        """
+        Print the current board with the pieces
+        """
+
         for i in range(0, len(self.pieces)):
             print(f'\n{i}', end='|')
             for j in range(0, len(self.pieces[i])):     
