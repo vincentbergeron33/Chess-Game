@@ -17,8 +17,8 @@ class Player:
         while True:
             print("Please select the piece you would like to play...\n")
             try:
-                piece_coordinate_x = int(input("Enter the row's variable between 0 and 7:"))
-                piece_coordinate_y = int(input("Enter the colum's variable between 0 and 7:"))
+                piece_coordinate_x = int(input("Enter the row's variable between 0 and 7:\n"))
+                piece_coordinate_y = int(input("Enter the colum's variable between 0 and 7:\n"))
             except ValueError:
                 print('please enter a number')
                 continue
