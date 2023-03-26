@@ -390,7 +390,7 @@ class Piece:
 
         return valide_location_king
 
-    def checkmate(board, currentPlayer, player_white, player_black) -> bool:
+    def checkmate(board, current_player, player_white, player_black) -> bool:
 
         """
         Check if the current player is on check or is checkmate
@@ -408,20 +408,20 @@ class Piece:
         dictionary_moves = piece.dictionary_of_moves(board)
         all_moves = piece.list_all_moves(board)
 
-        if currentPlayer is player_white:
+        if current_player is player_white:
             king_location = white_king_location
-        elif currentPlayer is player_black:
+        elif current_ player is player_black:
             king_location = black_king_location
 
         if Piece.checkmate_capture(board, king_location, dictionary_moves, all_moves)\
             and Piece.checkmate_move(board, king_location, dictionary_moves, all_moves)\
             and Piece.checkmate_king_move(board, king_location, dictionary_moves, all_moves):
-            print(f'{currentPlayer} is checkmate!')
+            print(f'{current_player} is checkmate!')
             return True
         elif Piece.checkmate_capture(board, king_location, dictionary_moves, all_moves)\
             or Piece.checkmate_move(board, king_location, dictionary_moves, all_moves)\
             or Piece.checkmate_king_move(board, king_location, dictionary_moves, all_moves):
-            print(f'{currentPlayer} is check!')
+            print(f'{current_player} is check!')
             return False
 
     def corresponding_keys(val, dictionary):

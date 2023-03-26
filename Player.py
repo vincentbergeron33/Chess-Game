@@ -8,7 +8,7 @@ from Piece import TypePiece
 class Player:
     username: str
 
-    def choose_piece_to_play(board, currentPlayer, player_white, player_black):
+    def choose_piece_to_play(board, current_player, player_white, player_black):
 
         """
         Return a piece which the current player would like to play
@@ -24,7 +24,7 @@ class Player:
                 continue
 
             if board.pieces[piece_coordinate_x][piece_coordinate_y] is not None:
-                if currentPlayer is player_white:
+                if current_Player is player_white:
                     if board.pieces[piece_coordinate_x][piece_coordinate_y].colorPiece is ColorPiece.WHITE:
                         piece_to_validate = board.pieces[piece_coordinate_x][piece_coordinate_y]
                         if piece_to_validate.movement(board):
@@ -82,7 +82,7 @@ class Player:
                 continue
         return new_position
 
-    def is_king_still_in_check(self, board, currentPlayer, player_white, player_black, move_to_piece, piece_to_play, move_to_play, play_from_location):
+    def is_king_still_in_check(self, board, current_player, player_white, player_black, move_to_piece, piece_to_play, move_to_play, play_from_location):
 
         """
         Ensure the current player play the move to get out of the check
@@ -98,9 +98,9 @@ class Player:
 
         all_moves = piece.list_all_moves(board)
 
-        if currentPlayer is player_white:
+        if current_player is player_white:
             king_location = white_king_location
-        elif currentPlayer is player_black:
+        elif current_player is player_black:
             king_location = black_king_location
 
         if king_location in all_moves:
@@ -109,7 +109,7 @@ class Player:
                 piece_to_play.location = play_from_location
                 board.pieces[play_from_location[0]][play_from_location[1]] = piece_to_play
                 board.pieces[move_to_play[0]][move_to_play[1]] = move_to_piece
-                piece_to_play = Player.choose_piece_to_play(board, currentPlayer, player_white, player_black)
+                piece_to_play = Player.choose_piece_to_play(board, current_player, player_white, player_black)
                 move_to_play = Player.choose_move_to_play(piece_to_play, board)
                 board.pieces[piece_to_play.location[0]][piece_to_play.location[1]] = None
                 piece_to_play.location = (move_to_play[0], move_to_play[1])

@@ -2,7 +2,8 @@
 
 This is a simple chess game coded with python. The board is printed on the console and players interact in the console to move their pieces.
 
-![Board Printed](assets/images/board_printed.png)
+The live link can be found here: https://chess-game-vincent.herokuapp.com/
+![Am I Responsive](assets/images/amiresponsive.png)
 
 ## Features
 
@@ -40,7 +41,7 @@ __Move piece__
 
 - Once the piece and the new location is choosen, the piece is move to the new location on the board.
 
-![New Location](assets/images/board_printed.png)
+![New Location](assets/images/Board_printed.png)
 
 __Check or Checkmate__
 
@@ -67,7 +68,7 @@ Testing has been undertaken during the construction of the code. A specific file
 See below example of tests that have been undertaken using the board_test file and prints inside the codes
 
 ![King testing](assets/images/testing_king.png)
-![Example testing](assets/images/testing_knight.png)
+![Example testing](assets/images/testing_Knight.png)
 ![Example testing #2](assets/images/testing_moves.png)
 
 ### Validator Testing
@@ -81,16 +82,18 @@ See below example of tests that have been undertaken using the board_test file a
 
 ## Deployment
 
-- The website has been deployed using Github following the below steps
-    -  The files have been prepared using Gitpod
-    -  The files have been pushed to Github using Git commands
-    -  The correct files in the repositories have been selected
-    -  In the setting / page, the source has been put on "Deploy from a branch" and the branch on "main" then click save
-    -  The website is now deployed
+- The project was deployed using the app Heroku. The steps explained in the Code Institue course have been followed:
+    - Complete the project and push it to Git Hub
+    - Create a Heroku account
+    - Create a app on Heroku account
+    - Link Git Hub to Heroku
+    - Search for the repository and add link it to Heroku
+    - Add the buildbacks Python and Node.JS
+    - Deploy the project
 
-The live link can be found here: https://vincentbergeron33.github.io/Score-Board/
+The live link can be found here: https://chess-game-vincent.herokuapp.com/
 
-The website has been deployed when all functions were tested and were working. From the deployment, CSS validor, HTML validator and AMIRESPONSIVE have been run through the website.
+- Note that no creds are required for this project. Name of the python file has been changed from game to run to accomodate the Heroku requirement and all python files move to the main folder.
 
 ## Credits
 
