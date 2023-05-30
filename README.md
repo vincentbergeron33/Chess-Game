@@ -22,7 +22,7 @@ __Print board__
 
 - Everytime a player is starting his turn, the board will be printed into the console to help the user select his piece and move location
 
-![Board Printed](assets/images/board_printed.png)
+![Board Printed](assets/images/Board_printed.png)
 
 
 __Select piece and select move location__
