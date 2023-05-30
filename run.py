@@ -48,10 +48,10 @@ class Game():
 
         if game.currentPlayer is players[0]:
             game.currentPlayer = players[1]
-            print('\nIt is black turn')
+            print(f"\nIt is {game.currentPlayer.username}'s turn")
         else:
             game.currentPlayer = players[0]
-            print('\nIt is white turn')
+            print(f"\nIt is {game.currentPlayer.username}'s turn")
 
 
 def set_up_board() -> Board:
@@ -79,12 +79,22 @@ def set_up_players() -> Tuple[Player, Player]:
     """
     Set the player name for each player
     """
-    player_white_name = input("Enter white player name:")
-    player_black_name = input("Enter black player name:")
-    player_white = Player(player_white_name)
-    player_black = Player(player_black_name)
-
-    return (player_white, player_black)
+    while True:
+        try:
+            player_white_name = input("Enter white player name:")
+            if not player_white_name:
+                raise ValueError('\nPlease input an username\n')
+            player_black_name = input("Enter black player name:")
+            if not player_black_name:
+                raise ValueError('\nPlease input an username\n')
+            if player_white_name and player_black_name:
+                player_white = Player(player_white_name)
+                player_black = Player(player_black_name)
+                print(f'\nWhite player is {player_white.username} and black player is {player_black.username}')
+                break
+        except ValueError as e:
+            print(e)
+    return [player_white, player_black]
 
 
 players = set_up_players()

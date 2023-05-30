@@ -18,13 +18,16 @@ class Player:
             print("Please select the piece you would like to play...\n")
             try:
                 piece_coordinate_x = int(input("Enter the row's variable between 0 and 7:\n"))
+                if piece_coordinate_x > 7 or piece_coordinate_x < 0:
+                    print("\nPlease enter a number between 0 and 7\n")
+                    continue
                 piece_coordinate_y = int(input("Enter the colum's variable between 0 and 7:\n"))
-                if 0 < piece_coordinate_x > 7 or 0 < piece_coordinate_y > 7:
-                    print("Please enter a number between 0 and 7\n")
+                if piece_coordinate_y > 7 or piece_coordinate_y < 0:
+                    print("\nPlease enter a number between 0 and 7\n")
                     continue
             except ValueError:
                 print('please enter a number\n')
-                continue 
+                continue
 
             if board.pieces[piece_coordinate_x][piece_coordinate_y] is not None:
                 if current_player is player_white:
