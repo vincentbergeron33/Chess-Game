@@ -2,7 +2,7 @@
 
 This is a simple chess game coded with python. The board is printed on the console and players interact in the console to move their pieces.
 
-The live link can be found here: https://chess-game-vincent.herokuapp.com/
+The live link can be found here: [https://chess-game-vincent.herokuapp.com/](https://chess-project-3-1d51e65ecec6.herokuapp.com/)
 ![Am I Responsive](assets/images/amiresponsive.png)
 
 ## Features
@@ -91,7 +91,7 @@ See below example of tests that have been undertaken using the board_test file a
     - Add the buildbacks Python and Node.JS
     - Deploy the project
 
-The live link can be found here: https://chess-game-vincent.herokuapp.com/
+The live link can be found here: [https://chess-game-vincent.herokuapp.com/](https://chess-project-3-1d51e65ecec6.herokuapp.com/)
 
 - Note that no creds are required for this project. Name of the python file has been changed from game to run to accomodate the Heroku requirement and all python files move to the main folder.
 
